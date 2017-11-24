@@ -1,4 +1,4 @@
-package com.chill.table.football.infrastructure.repository;
+package com.chill.table.football.infrastructure.repository.matches;
 
 import com.chill.table.football.application.matches.Match;
 import com.chill.table.football.application.matches.MatchesRepository;

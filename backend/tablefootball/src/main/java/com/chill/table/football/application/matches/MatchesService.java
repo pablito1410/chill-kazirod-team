@@ -4,45 +4,54 @@ import com.chill.table.football.application.matches.dto.in.CreateMatchRequestDTO
 import com.chill.table.football.application.matches.dto.in.SetWinnerRequestDTO;
 import com.chill.table.football.application.matches.dto.out.CreateMatchResponseDTO;
 import com.chill.table.football.application.matches.dto.out.SetWinnerResponseDTO;
-import com.chill.table.football.application.user.User;
-import com.chill.table.football.application.user.UserService;
-import com.google.common.collect.ImmutableSet;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Transactional
 public class MatchesService {
 
     private MatchesRepository matchesRepository;
-    private UserService userService;
+    private TeamRepository teamRepository;
+    private PlayerRepository playerRepository;
 
-    public MatchesService(MatchesRepository matchesRepository, UserService userService) {
+    public MatchesService(MatchesRepository matchesRepository, TeamRepository teamRepository, PlayerRepository playerRepository) {
         this.matchesRepository = Objects.requireNonNull(matchesRepository);
-        this.userService = Objects.requireNonNull(userService);
+        this.teamRepository = Objects.requireNonNull(teamRepository);
+        this.playerRepository = Objects.requireNonNull(playerRepository);
     }
 
     public CreateMatchResponseDTO createMatch(CreateMatchRequestDTO createMatchRequestDTO) {
         Objects.requireNonNull(createMatchRequestDTO);
+        CreateMatchRequestDTO.Team firstTeamDTO = createMatchRequestDTO.getFirstTeam();
+        CreateMatchRequestDTO.Team secondTeam1DTO = createMatchRequestDTO.getSecondTeam();
 
-        CreateMatchRequestDTO.Team firstTeamDto = createMatchRequestDTO.getFirstTeam();
-        Team firstTeam = Team.fromDTO(firstTeamDto.getName(), loadUsers(firstTeamDto.getUsers()));
+        Team firstTeam = getOrCreateTeam(firstTeamDTO);
+        Team secondTeam = getOrCreateTeam(secondTeam1DTO);
 
-        CreateMatchRequestDTO.Team secondTeamDto = createMatchRequestDTO.getSecondTeam();
-        Team secondTeam = Team.fromDTO(firstTeamDto.getName(), loadUsers(firstTeamDto.getUsers()));
-
-        Match match = new Match(firstTeam, secondTeam);
+        Match match = new Match(createMatchRequestDTO.getDateTime(), firstTeam, secondTeam);
         match = matchesRepository.save(match);
 
         return match.toCreateMatchResponseDTO();
     }
 
-    private Set<User> loadUsers(Set<Long> userIds) {
-        return userIds.stream()
-                .map(userService::getUser)
-                .collect(Collectors.toSet());
+    private Team getOrCreateTeam(CreateMatchRequestDTO.Team teamDTO) {
+        Set<Long> playerIds = teamDTO.getPlayers();
+        Optional<Team> team = teamRepository.findByIdIn(playerIds);
+        return team.orElse(createTeamFromDTO(teamDTO));
+    }
+
+    private Team createTeamFromDTO(CreateMatchRequestDTO.Team teamDTO) {
+        Team team = new Team();
+        teamDTO.getPlayers().forEach(p -> team.appendPlayer(getOrCreatePlayer(p)));
+        return team;
+    }
+
+    private Player getOrCreatePlayer(Long playerId) {
+        Optional<Player> player = playerRepository.findById(playerId);
+        return player.orElse(new Player());
     }
 
     public SetWinnerResponseDTO setWinner(SetWinnerRequestDTO setWinnerRequestDTO) {
