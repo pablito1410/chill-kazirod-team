@@ -10,7 +10,7 @@ import java.util.Set;
 
 @Data
 @Entity
-class Team {
+public class Team {
 
     @Id
     private Long id;
