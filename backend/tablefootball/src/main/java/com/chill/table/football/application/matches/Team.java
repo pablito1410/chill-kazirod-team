@@ -1,28 +1,34 @@
 package com.chill.table.football.application.matches;
 
-import com.chill.table.football.application.user.User;
-import lombok.Data;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
-@Data
 @Entity
 public class Team {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "TEAM_ID")
     private Long id;
 
-    @Column(nullable = false)
-    private String name;
+//    @Column(nullable = false, name = "NAME")
+//    private String name;
 
-    private Set<User> users;
+    @ManyToMany(mappedBy = "teams")
+    private Set<Player> players = new HashSet<>();
 
-    Team(String name, Set<User> users) {
-        this.id = id;
-        this.name = name;
-        this.users = users;
+//    Team(String name) {
+//        this.name = name;
+//    }
+
+    Long getId() {
+        return id;
     }
+
+    Team appendPlayer(Player player) {
+        players.add(player);
+        return this;
+    }
+
 }

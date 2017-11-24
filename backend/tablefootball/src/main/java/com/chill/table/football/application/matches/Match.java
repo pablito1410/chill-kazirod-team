@@ -1,31 +1,52 @@
 package com.chill.table.football.application.matches;
 
-import lombok.Data;
+import com.chill.table.football.application.matches.dto.out.CreateMatchResponseDTO;
+import org.apache.tomcat.jni.Local;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Data
 @Entity
 public class Match {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private LocalDateTime beginDateTime;
 
+    @Column(nullable = false)
+    private LocalDateTime dateTime;
+
+    private LocalDateTime endDateTime;
+
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private State state;
 
-    private Team firstTeam;
+    @JoinColumn(name = "HOME")
+    @OneToOne
+    private Team home;
 
-    private Team secondTeam;
+    @JoinColumn(name = "GUESTS")
+    @OneToOne
+    private Team guests;
 
-    Match(LocalDateTime beginDateTime, State state) {
-        this.beginDateTime = beginDateTime;
-        this.state = state;
+    Match(LocalDateTime dateTime, Team firstTeam, Team secondTeam) {
+        this.beginDateTime = LocalDateTime.now();
+        this.dateTime = dateTime;
+        this.state = State.CREATED;
+        this.home = firstTeam;
+        this.guests = secondTeam;
+    }
+
+    CreateMatchResponseDTO toCreateMatchResponseDTO() {
+        return CreateMatchResponseDTO.builder()
+                .matchId(id)
+                .firstTeamId(home.getId())
+                .secondTeamId(guests.getId())
+                .state(state.name())
+                .build();
     }
 }
