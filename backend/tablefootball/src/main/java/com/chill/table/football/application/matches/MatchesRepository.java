@@ -1,4 +1,5 @@
 package com.chill.table.football.application.matches;
 
-public class MatchesRepository {
+public interface MatchesRepository {
+    Match save(Match match);
 }
