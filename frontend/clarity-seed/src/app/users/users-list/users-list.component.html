@@ -1,0 +1,14 @@
+<clr-datagrid>
+	<clr-dg-column>Id</clr-dg-column>
+	<clr-dg-column>First name</clr-dg-column>
+	<clr-dg-column>Last name</clr-dg-column>
+	<clr-dg-column>Login</clr-dg-column>
+	<clr-dg-column>Password</clr-dg-column>
+	<clr-dg-row *ngFor="let user of users">
+		<clr-dg-cell>{{user.id}}</clr-dg-cell>
+		<clr-dg-cell>{{user.fName}}</clr-dg-cell>
+		<clr-dg-cell>{{user.lName}}</clr-dg-cell>
+		<clr-dg-cell>{{user.login }}</clr-dg-cell>
+		<clr-dg-cell>{{user.password}}</clr-dg-cell>
+	</clr-dg-row>
+</clr-datagrid>

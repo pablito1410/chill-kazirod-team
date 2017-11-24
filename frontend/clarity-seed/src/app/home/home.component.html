@@ -1,0 +1,10 @@
+<clr-dropdown>
+    <button clrDropdownTrigger class="btn">
+        Dropdown
+        <clr-icon shape="caret down"></clr-icon>
+    </button>
+    <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
+        <a clrDropdownItem href="javascript://">Create</a>
+        <a clrDropdownItem *ngIf="anySelected" href="javascript://">Edit</a>
+    </clr-dropdown-menu>
+</clr-dropdown>
