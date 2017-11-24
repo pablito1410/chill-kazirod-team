@@ -5,7 +5,7 @@ import lombok.Value;
 import java.time.LocalDateTime;
 
 @Value
-public class SetWinnerRequestDTO {
+public class EndMatchRequestDTO {
     private Long matchId;
     private Long teamId;
     private LocalDateTime endDateTime;

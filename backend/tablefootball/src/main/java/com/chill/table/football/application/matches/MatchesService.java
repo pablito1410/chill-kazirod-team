@@ -1,9 +1,9 @@
 package com.chill.table.football.application.matches;
 
 import com.chill.table.football.application.matches.dto.in.CreateMatchRequestDTO;
-import com.chill.table.football.application.matches.dto.in.SetWinnerRequestDTO;
+import com.chill.table.football.application.matches.dto.in.EndMatchRequestDTO;
 import com.chill.table.football.application.matches.dto.out.CreateMatchResponseDTO;
-import com.chill.table.football.application.matches.dto.out.SetWinnerResponseDTO;
+import com.chill.table.football.application.matches.dto.out.EndMatchResponseDTO;
 import com.chill.table.football.application.matches.exception.MatchNotFoundException;
 import com.chill.table.football.application.matches.exception.TeamNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,15 +59,15 @@ public class MatchesService {
     }
 
     // TODO rename end match
-    public SetWinnerResponseDTO setWinner(SetWinnerRequestDTO setWinnerRequestDTO) {
-        Objects.requireNonNull(setWinnerRequestDTO);
+    public EndMatchResponseDTO endMatch(EndMatchRequestDTO endMatchRequestDTO) {
+        Objects.requireNonNull(endMatchRequestDTO);
 
-        Match match = matchesRepository.findById(setWinnerRequestDTO.getMatchId())
-                .orElseThrow(() -> new MatchNotFoundException("Match with id = " + setWinnerRequestDTO.getMatchId() + " not found."));
-        Team team = teamRepository.findById(setWinnerRequestDTO.getTeamId())
-                .orElseThrow(() -> new TeamNotFoundException("Team with id = " + setWinnerRequestDTO.getTeamId() + " not found."));
+        Match match = matchesRepository.findById(endMatchRequestDTO.getMatchId())
+                .orElseThrow(() -> new MatchNotFoundException("Match with id = " + endMatchRequestDTO.getMatchId() + " not found."));
+        Team team = teamRepository.findById(endMatchRequestDTO.getTeamId())
+                .orElseThrow(() -> new TeamNotFoundException("Team with id = " + endMatchRequestDTO.getTeamId() + " not found."));
         match.end(team);
 
-        return SetWinnerResponseDTO.builder().build();
+        return EndMatchResponseDTO.builder().build();
     }
 }

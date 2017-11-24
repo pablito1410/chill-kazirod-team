@@ -6,5 +6,5 @@ import lombok.Value;
 
 @Value
 @Builder
-public class SetWinnerResponseDTO {
+public class EndMatchResponseDTO {
 }
