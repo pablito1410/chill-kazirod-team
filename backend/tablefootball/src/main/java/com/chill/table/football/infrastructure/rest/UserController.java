@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collection;
+
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -31,7 +33,14 @@ public class UserController {
     @RequestMapping(path = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<UserDTO> get(@PathVariable(name = "id") final long id) {
 //        final UserDTO user = userService.getUser(id);
-        final UserDTO user = new UserDTO(0L, "kazirod");
-        return new ResponseEntity<>(user, HttpStatus.OK);
+//        final UserDTO user = new UserDTO(0L, "kazirod");
+//        return new ResponseEntity<>(user, HttpStatus.OK);
+    return null;
+    }
+
+    @RequestMapping(path = "/all", method = RequestMethod.GET)
+    public ResponseEntity<Collection<UserDTO>> getAll() {
+        final Collection<UserDTO> allUsers = userService.getAll();
+        return new ResponseEntity<>(allUsers, HttpStatus.OK);
     }
 }

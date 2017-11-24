@@ -1,13 +1,16 @@
 package com.chill.table.football.application.user.ports.outgoing;
 
-import lombok.Getter;
-import lombok.Value;
+import lombok.*;
 
+@AllArgsConstructor(access = AccessLevel.PUBLIC)
 @Getter
-@Value
+@Setter
+@ToString
 public class UserDTO {
 
-    private final Long id;
-    private final String userName;
+    private Long id;
+    private String userName;
+
+    public UserDTO() { }
 
 }
