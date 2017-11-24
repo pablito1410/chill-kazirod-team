@@ -5,6 +5,7 @@ import com.chill.table.football.application.matches.dto.in.CreateMatchRequestDTO
 import com.chill.table.football.application.matches.dto.in.EndMatchRequestDTO;
 import com.chill.table.football.application.matches.dto.out.CreateMatchResponseDTO;
 import com.chill.table.football.application.matches.dto.out.EndMatchResponseDTO;
+import com.chill.table.football.application.matchesfinder.MatchesFinder;
 import com.chill.table.football.architecture.cqrs.CommandGateway;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -12,23 +13,26 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.Objects;
 
 @RestController("api/matches")
 class MatchesController {
 
-    private MatchesService matchesService;
+    private CommandGateway commandGateway;
+    private MatchesFinder matchesFinder;
 
-    MatchesController(MatchesService matchesService) {
-        this.matchesService = matchesService;
+    public MatchesController(CommandGateway commandGateway, MatchesFinder matchesFinder) {
+        this.commandGateway = Objects.requireNonNull(commandGateway);
+        this.matchesFinder = Objects.requireNonNull(matchesFinder);
     }
 
     @PostMapping
     CreateMatchResponseDTO createMatch(@RequestBody @Valid CreateMatchRequestDTO requestDTO) {
-        return matchesService.createMatch(requestDTO);
+        return commandGateway.dispatch(requestDTO);
     }
 
     @PutMapping("/end-match")
     EndMatchResponseDTO endMatch(@RequestBody @Valid EndMatchRequestDTO requestDTO) {
-        return matchesService.endMatch(requestDTO);
+        return commandGateway.dispatch(requestDTO);
     }
 }

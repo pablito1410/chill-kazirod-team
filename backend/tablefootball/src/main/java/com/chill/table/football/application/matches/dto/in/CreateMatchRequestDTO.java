@@ -1,5 +1,7 @@
 package com.chill.table.football.application.matches.dto.in;
 
+import com.chill.table.football.application.matches.dto.out.CreateMatchResponseDTO;
+import com.chill.table.football.architecture.cqrs.Command;
 import lombok.Value;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -8,7 +10,7 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 @Value
-public class CreateMatchRequestDTO {
+public class CreateMatchRequestDTO implements Command<CreateMatchResponseDTO> {
 
     @NotNull
     private Team firstTeam;

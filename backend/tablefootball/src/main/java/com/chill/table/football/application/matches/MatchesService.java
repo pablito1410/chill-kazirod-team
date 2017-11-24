@@ -58,7 +58,6 @@ public class MatchesService {
         return player.orElse(new Player());
     }
 
-    // TODO rename end match
     public EndMatchResponseDTO endMatch(EndMatchRequestDTO endMatchRequestDTO) {
         Objects.requireNonNull(endMatchRequestDTO);
 
