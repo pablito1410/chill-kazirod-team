@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import static com.fasterxml.jackson.annotation.PropertyAccessor.*;
 
 @Configuration
-public class JacksonConfig {
+public class JacksonConfiguration {
 
     @Autowired
     public void configureJackson(final ObjectMapper jackson2ObjectMapper) {
