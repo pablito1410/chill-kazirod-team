@@ -28,6 +28,6 @@ class MatchesController {
 
     @PutMapping("/set-winner")
     SetWinnerResponseDTO setWinner(@RequestBody @Valid SetWinnerRequestDTO requestDTO) {
-        return SetWinnerResponseDTO.builder().build();
+        return matchesService.setWinner(requestDTO);
     }
 }

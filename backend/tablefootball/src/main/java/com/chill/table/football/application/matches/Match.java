@@ -1,6 +1,7 @@
 package com.chill.table.football.application.matches;
 
 import com.chill.table.football.application.matches.dto.out.CreateMatchResponseDTO;
+import com.chill.table.football.application.matches.exception.MatchDoesNotContainTeam;
 import org.apache.tomcat.jni.Local;
 
 import javax.persistence.*;
@@ -48,5 +49,11 @@ public class Match {
                 .secondTeamId(guests.getId())
                 .state(state.name())
                 .build();
+    }
+
+    void end(Team winningTeam) {
+        if (!home.equals(winningTeam) || !guests.equals(winningTeam)) {
+            throw new MatchDoesNotContainTeam("Match with id = " + id + " does not contain team with id = " + winningTeam.getId());
+        }
     }
 }
