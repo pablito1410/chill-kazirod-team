@@ -1,32 +1,41 @@
 package com.chill.table.football.application.matches;
 
 import com.chill.table.football.application.matches.dto.out.CreateMatchResponseDTO;
+import org.apache.tomcat.jni.Local;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "MATCHES")
 public class Match {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "MATCH_ID")
     private Long id;
 
-    @Column(name = "BEGIN_DATE_TIME", nullable = false)
+    @Column(nullable = false)
     private LocalDateTime beginDateTime;
 
+    @Column(nullable = false)
+    private LocalDateTime dateTime;
+
+    private LocalDateTime endDateTime;
+
     @Enumerated(EnumType.STRING)
-    @Column(name = "STATE", nullable = false)
+    @Column(nullable = false)
     private State state;
 
+    @JoinColumn(name = "HOME")
+    @OneToOne
     private Team home;
 
+    @JoinColumn(name = "GUESTS")
+    @OneToOne
     private Team guests;
 
-    Match(Team firstTeam, Team secondTeam) {
+    Match(LocalDateTime dateTime, Team firstTeam, Team secondTeam) {
         this.beginDateTime = LocalDateTime.now();
+        this.dateTime = dateTime;
         this.state = State.CREATED;
         this.home = firstTeam;
         this.guests = secondTeam;

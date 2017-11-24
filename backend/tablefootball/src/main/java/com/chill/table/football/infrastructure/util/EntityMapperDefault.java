@@ -11,7 +11,6 @@ public class EntityMapperDefault implements EntityMapper {
         this.modelMapper = modelMapper;
     }
 
-
     @Override
     public <T, DTO> DTO map(final T user, final Class<DTO> userDTOClass) {
         return null;
