@@ -1,0 +1,39 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="chillout.hackaton.tablefootballclient.fragment.CreateMatchFragment">
+
+
+    <TextView
+        android:id="@+id/choosePlayersTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="@string/choose_players"
+        android:textSize="30sp"/>
+
+    <Spinner
+        android:id="@+id/spinnerYou"
+        android:layout_below="@id/choosePlayersTV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"/>
+
+    <Spinner
+        android:id="@+id/spinnerFriend"
+        android:layout_below="@id/spinnerYou"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"/>
+
+
+    <TextView
+        android:layout_below="@id/spinnerFriend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="VS"
+        android:layout_centerHorizontal="true"
+        />
+
+</RelativeLayout>
