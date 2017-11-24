@@ -5,8 +5,10 @@ import com.chill.table.football.application.user.ports.incoming.CreateUserComman
 import com.chill.table.football.application.user.ports.outgoing.UserDTO;
 import com.chill.table.football.application.user.ports.outgoing.UserDao;
 import com.chill.table.football.application.util.EntityMapper;
+import org.modelmapper.TypeToken;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 public class UserService {
@@ -35,6 +37,6 @@ public class UserService {
 
     public Collection<UserDTO> getAll() {
         final List<User> users = userDao.getAll();
-        return entityMapper.mapCollection(users, UserDTO.class);
+        return entityMapper.mapCollection(users, UserDTO.class, new TypeToken<HashSet<UserDTO>>(){} .getType());
     }
 }

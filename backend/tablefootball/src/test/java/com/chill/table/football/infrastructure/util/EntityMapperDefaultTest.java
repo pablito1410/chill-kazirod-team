@@ -9,9 +9,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -38,14 +44,12 @@ public class EntityMapperDefaultTest {
 
     @Test
     public void mapCollection() throws Exception {
-//        final List<User> users = new ArrayList<>();
-//        final User user2 = new User("Asd", "Sdfsdf");
-//        users.add(user2);
-//        TypeToken.of(new HashSet<>().getClass())
-//                entityMapper.mapCollection(users, klazz.getClass());
-//        final UserDTO userDTO = userDTOS.iterator().next();
-//        Assert.assertEquals(user2.getId(), userDTO.getId());
-//        Assert.assertEquals(user2.getUserName(), userDTO.getUserName());
+        final List<User> users = new ArrayList<>();
+        users.add(user);
+        final Set<UserDTO> userDTOS = entityMapper.mapCollection(users, UserDTO.class, new TypeToken<HashSet<UserDTO>>() {}.getType());
+        final UserDTO userDTO = userDTOS.iterator().next();
+        Assert.assertEquals(user.getId(), userDTO.getId());
+        Assert.assertEquals(user.getUserName(), userDTO.getUserName());
     }
 
 }

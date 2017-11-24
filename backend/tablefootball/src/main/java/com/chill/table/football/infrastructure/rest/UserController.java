@@ -3,6 +3,7 @@ package com.chill.table.football.infrastructure.rest;
 import com.chill.table.football.application.user.UserService;
 import com.chill.table.football.application.user.ports.incoming.CreateUserCommand;
 import com.chill.table.football.application.user.ports.outgoing.UserDTO;
+import com.chill.table.football.architecture.cqrs.CommandGateway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,15 +19,17 @@ import java.util.Collection;
 public class UserController {
 
     private final UserService userService;
+    private final CommandGateway commandGateway;
 
     @Autowired
-    public UserController(final UserService userService) {
+    public UserController(final UserService userService, final CommandGateway commandGateway) {
         this.userService = userService;
+        this.commandGateway = commandGateway;
     }
 
     @RequestMapping(path = "/create", method = RequestMethod.POST)
     public ResponseEntity<Long> createUser(final CreateUserCommand command) {
-        final Long id = userService.handle(command);
+        final Long id = commandGateway.dispatch(command);
         return new ResponseEntity<>(id, HttpStatus.CREATED);
     }
 
