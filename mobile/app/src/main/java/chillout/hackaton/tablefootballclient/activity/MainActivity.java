@@ -1,7 +1,9 @@
-package chillout.hackaton.tablefootballclient;
+package chillout.hackaton.tablefootballclient.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import chillout.hackaton.tablefootballclient.R;
 
 public class MainActivity extends AppCompatActivity {
 
