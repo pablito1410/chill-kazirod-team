@@ -1,9 +1,11 @@
 package com.chill.table.football.application.matches;
 
 import com.chill.table.football.application.matches.dto.in.CreateMatchRequestDTO;
-import com.chill.table.football.application.matches.dto.in.SetWinnerRequestDTO;
+import com.chill.table.football.application.matches.dto.in.EndMatchRequestDTO;
 import com.chill.table.football.application.matches.dto.out.CreateMatchResponseDTO;
-import com.chill.table.football.application.matches.dto.out.SetWinnerResponseDTO;
+import com.chill.table.football.application.matches.dto.out.EndMatchResponseDTO;
+import com.chill.table.football.application.matches.exception.MatchNotFoundException;
+import com.chill.table.football.application.matches.exception.TeamNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
@@ -23,6 +25,8 @@ public class MatchesService {
         this.playerRepository = Objects.requireNonNull(playerRepository);
     }
 
+    // TODO:
+    // nie można dodać rezerwacji do 30 minut od tego co aktualnie jest w bazie
     public CreateMatchResponseDTO createMatch(CreateMatchRequestDTO createMatchRequestDTO) {
         Objects.requireNonNull(createMatchRequestDTO);
         CreateMatchRequestDTO.Team firstTeamDTO = createMatchRequestDTO.getFirstTeam();
@@ -39,7 +43,7 @@ public class MatchesService {
 
     private Team getOrCreateTeam(CreateMatchRequestDTO.Team teamDTO) {
         Set<Long> playerIds = teamDTO.getPlayers();
-        Optional<Team> team = teamRepository.findByIdIn(playerIds);
+        Optional<Team> team = teamRepository.findTop1ByIdIn(playerIds);
         return team.orElse(createTeamFromDTO(teamDTO));
     }
 
@@ -54,9 +58,16 @@ public class MatchesService {
         return player.orElse(new Player());
     }
 
-    public SetWinnerResponseDTO setWinner(SetWinnerRequestDTO setWinnerRequestDTO) {
-        Objects.requireNonNull(setWinnerRequestDTO);
+    // TODO rename end match
+    public EndMatchResponseDTO endMatch(EndMatchRequestDTO endMatchRequestDTO) {
+        Objects.requireNonNull(endMatchRequestDTO);
 
-        return SetWinnerResponseDTO.builder().build();
+        Match match = matchesRepository.findById(endMatchRequestDTO.getMatchId())
+                .orElseThrow(() -> new MatchNotFoundException("Match with id = " + endMatchRequestDTO.getMatchId() + " not found."));
+        Team team = teamRepository.findById(endMatchRequestDTO.getTeamId())
+                .orElseThrow(() -> new TeamNotFoundException("Team with id = " + endMatchRequestDTO.getTeamId() + " not found."));
+        match.end(team);
+
+        return EndMatchResponseDTO.builder().build();
     }
 }

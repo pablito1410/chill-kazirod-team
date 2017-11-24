@@ -3,7 +3,7 @@ package com.chill.table.football.infrastructure.repository.user;
 import com.chill.table.football.application.user.User;
 import com.chill.table.football.application.user.ports.outgoing.UserDao;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 public class UserRepository implements UserDao {
@@ -20,7 +20,7 @@ public class UserRepository implements UserDao {
     }
 
     @Override
-    public Collection<User> getAll() {
+    public List<User> getAll() {
         return repository.findAll();
     }
 

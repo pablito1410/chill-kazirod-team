@@ -1,6 +1,7 @@
 package com.chill.table.football.application.matches;
 
 import com.chill.table.football.application.matches.dto.out.CreateMatchResponseDTO;
+import com.chill.table.football.application.matches.exception.MatchDoesNotContainTeam;
 import org.apache.tomcat.jni.Local;
 
 import javax.persistence.*;
@@ -10,7 +11,7 @@ import java.time.LocalDateTime;
 public class Match {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
     @Column(nullable = false)
@@ -26,11 +27,11 @@ public class Match {
     private State state;
 
     @JoinColumn(name = "HOME")
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Team home;
 
     @JoinColumn(name = "GUESTS")
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Team guests;
 
     Match(LocalDateTime dateTime, Team firstTeam, Team secondTeam) {
@@ -48,5 +49,11 @@ public class Match {
                 .secondTeamId(guests.getId())
                 .state(state.name())
                 .build();
+    }
+
+    void end(Team winningTeam) {
+        if (!home.equals(winningTeam) || !guests.equals(winningTeam)) {
+            throw new MatchDoesNotContainTeam("Match with id = " + id + " does not contain team with id = " + winningTeam.getId());
+        }
     }
 }

@@ -2,14 +2,16 @@ package com.chill.table.football.application.user;
 
 
 import com.chill.table.football.application.matches.Team;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
 @Table(name = "USERS")
-@Data
+@Getter
+@Setter
 public class User {
 
     @Id
@@ -29,12 +31,9 @@ public class User {
             inverseJoinColumns = {@JoinColumn(name = "TEAM_ID")})
     private Set<Team> teams;
 
-    User(final String userName, final String password) {
+    public User(final String userName, final String password) {
         this.userName = userName;
         this.password = password;
     }
 
-    Long getId() {
-        return id;
-    }
 }

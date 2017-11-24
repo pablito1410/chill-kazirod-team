@@ -8,9 +8,10 @@ import java.util.Set;
 public class Player {
 
     @Id
+    @GeneratedValue
     private Long id;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     private Set<Team> teams = new HashSet<>();
 
     Player appendTeam(Team team) {
