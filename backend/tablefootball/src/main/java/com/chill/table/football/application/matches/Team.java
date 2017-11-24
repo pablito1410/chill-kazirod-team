@@ -8,14 +8,13 @@ import java.util.Set;
 public class Team {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "TEAM_ID")
+    @GeneratedValue
     private Long id;
 
 //    @Column(nullable = false, name = "NAME")
 //    private String name;
 
-    @ManyToMany(mappedBy = "teams")
+    @ManyToMany(mappedBy = "teams", cascade = CascadeType.ALL)
     private Set<Player> players = new HashSet<>();
 
 //    Team(String name) {

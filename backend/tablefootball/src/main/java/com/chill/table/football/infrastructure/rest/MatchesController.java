@@ -17,13 +17,13 @@ class MatchesController {
 
     private MatchesService matchesService;
 
-    public MatchesController(MatchesService matchesService) {
+    MatchesController(MatchesService matchesService) {
         this.matchesService = matchesService;
     }
 
     @PostMapping
     CreateMatchResponseDTO createMatch(@RequestBody @Valid CreateMatchRequestDTO requestDTO) {
-        return CreateMatchResponseDTO.builder().matchId(0L).build();
+        return matchesService.createMatch(requestDTO);
     }
 
     @PutMapping("/set-winner")

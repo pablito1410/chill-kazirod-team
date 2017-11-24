@@ -23,6 +23,8 @@ public class MatchesService {
         this.playerRepository = Objects.requireNonNull(playerRepository);
     }
 
+    // TODO:
+    // nie można dodać rezerwacji do 30 minut od tego co aktualnie jest w bazie
     public CreateMatchResponseDTO createMatch(CreateMatchRequestDTO createMatchRequestDTO) {
         Objects.requireNonNull(createMatchRequestDTO);
         CreateMatchRequestDTO.Team firstTeamDTO = createMatchRequestDTO.getFirstTeam();
@@ -39,7 +41,7 @@ public class MatchesService {
 
     private Team getOrCreateTeam(CreateMatchRequestDTO.Team teamDTO) {
         Set<Long> playerIds = teamDTO.getPlayers();
-        Optional<Team> team = teamRepository.findByIdIn(playerIds);
+        Optional<Team> team = teamRepository.findTop1ByIdIn(playerIds);
         return team.orElse(createTeamFromDTO(teamDTO));
     }
 

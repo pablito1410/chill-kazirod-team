@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 public class Match {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
     @Column(nullable = false)
@@ -26,11 +26,11 @@ public class Match {
     private State state;
 
     @JoinColumn(name = "HOME")
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Team home;
 
     @JoinColumn(name = "GUESTS")
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Team guests;
 
     Match(LocalDateTime dateTime, Team firstTeam, Team secondTeam) {
