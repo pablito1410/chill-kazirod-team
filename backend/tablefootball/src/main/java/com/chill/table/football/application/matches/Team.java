@@ -1,12 +1,14 @@
 package com.chill.table.football.application.matches;
 
 import com.chill.table.football.application.user.User;
+import lombok.Data;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.Set;
 
+@Data
 @Entity
 class Team {
 
