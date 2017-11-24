@@ -4,10 +4,13 @@ import com.chill.table.football.application.matches.dto.in.CreateMatchRequestDTO
 import com.chill.table.football.application.matches.dto.in.EndMatchRequestDTO;
 import com.chill.table.football.application.matches.dto.out.CreateMatchResponseDTO;
 import com.chill.table.football.application.matches.dto.out.EndMatchResponseDTO;
+import com.chill.table.football.application.matches.exception.MatchExistsWithTooCloseDateTime;
 import com.chill.table.football.application.matches.exception.MatchNotFoundException;
 import com.chill.table.football.application.matches.exception.TeamNotFoundException;
+import com.chill.table.football.application.matchesfinder.MatchesFinder;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -19,10 +22,14 @@ public class MatchesService {
     private TeamRepository teamRepository;
     private PlayerRepository playerRepository;
 
-    public MatchesService(MatchesRepository matchesRepository, TeamRepository teamRepository, PlayerRepository playerRepository) {
+    private MatchesFinder matchesFinder;
+
+    public MatchesService(MatchesRepository matchesRepository, TeamRepository teamRepository,
+                          PlayerRepository playerRepository, MatchesFinder matchesFinder) {
         this.matchesRepository = Objects.requireNonNull(matchesRepository);
         this.teamRepository = Objects.requireNonNull(teamRepository);
         this.playerRepository = Objects.requireNonNull(playerRepository);
+        this.matchesFinder = Objects.requireNonNull(matchesFinder);
     }
 
     // TODO:
@@ -34,6 +41,10 @@ public class MatchesService {
 
         Team firstTeam = getOrCreateTeam(firstTeamDTO);
         Team secondTeam = getOrCreateTeam(secondTeam1DTO);
+
+        matchesFinder.findMatchIn30MinutesBefore(createMatchRequestDTO.getDateTime())
+                .ifPresent(m -> {
+                    throw new MatchExistsWithTooCloseDateTime("Match with to close date time found = " + m.getDateTime()); });
 
         Match match = new Match(createMatchRequestDTO.getDateTime(), firstTeam, secondTeam);
         match = matchesRepository.save(match);
