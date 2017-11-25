@@ -9,7 +9,7 @@ import com.chill.table.football.application.matches.dto.out.EndMatchResponseDTO;
 import com.chill.table.football.application.matches.exception.MatchExistsWithTooCloseDateTime;
 import com.chill.table.football.application.matches.exception.TeamNameAlreadyExistException;
 import com.chill.table.football.application.query.matches.MatchesFinder;
-import com.chill.table.football.application.user.UserFinder;
+import com.chill.table.football.application.query.user.UserFinder;
 import com.chill.table.football.application.user.ports.outgoing.UserDTO;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -1,6 +1,6 @@
 package com.chill.table.football.infrastructure.rest;
 
-import com.chill.table.football.application.user.UserFinder;
+import com.chill.table.football.application.query.user.UserFinder;
 import com.chill.table.football.application.user.ports.incoming.CreateUserCommand;
 import com.chill.table.football.application.user.ports.outgoing.UserDTO;
 import com.chill.table.football.architecture.cqrs.CommandGateway;

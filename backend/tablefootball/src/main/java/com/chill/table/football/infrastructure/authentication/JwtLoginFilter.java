@@ -1,6 +1,10 @@
 package com.chill.table.football.infrastructure.authentication;
 
+import com.chill.table.football.infrastructure.authentication.exception.AuthMethodNotSupportedException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -17,8 +21,13 @@ import java.util.Collections;
 public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
 
 
-    public JwtLoginFilter(String url, AuthenticationManager authManager) {
+    private final ObjectMapper objectMapper;
+
+    public JwtLoginFilter(final String url,
+                          final AuthenticationManager authManager,
+                          final ObjectMapper objectMapper) {
         super(new AntPathRequestMatcher(url));
+        this.objectMapper = objectMapper;
         setAuthenticationManager(authManager);
     }
 
@@ -27,14 +36,22 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
             HttpServletRequest req, HttpServletResponse res)
             throws AuthenticationException, IOException, ServletException {
 
-        final String userName = req.getParameter("userName");
-        final String password = req.getParameter("password");
-//        if (userName == null || userName.isEmpty() || password == null || password.isEmpty()) {
-//            throw null;
-//        }
+        if (!HttpMethod.POST.name().equals(req.getMethod())) {
+            throw new AuthMethodNotSupportedException("Authentication method not supported");
+        }
+
+        LoginRequestBody loginRequest = objectMapper.readValue(req.getReader(), LoginRequestBody.class);
+
+        if (loginRequest.getUserName() == null || loginRequest.getUserName().isEmpty()
+                || loginRequest.getPassword() == null || loginRequest.getPassword().isEmpty()) {
+            throw new AuthenticationServiceException("Username or Password not provided");
+        }
 
         return getAuthenticationManager().authenticate(
-                new UsernamePasswordAuthenticationToken(userName, password, Collections.emptyList()));
+                new UsernamePasswordAuthenticationToken(
+                        loginRequest.getUserName(),
+                        loginRequest.getPassword(),
+                        Collections.emptyList()));
     }
 
     @Override
