@@ -2,7 +2,6 @@ package com.chill.table.football.application.user;
 
 import com.chill.table.football.application.user.exception.UserNotFoundException;
 import com.chill.table.football.application.user.ports.outgoing.UserDTO;
-import com.chill.table.football.application.user.ports.outgoing.UserDao;
 import com.chill.table.football.application.util.EntityMapper;
 import org.modelmapper.TypeToken;
 
