@@ -1,7 +1,7 @@
 package com.chill.table.football.infrastructure.authentication;
 
-import com.chill.table.football.application.user.User;
 import com.chill.table.football.application.query.user.UserFinder;
+import com.chill.table.football.application.user.User;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

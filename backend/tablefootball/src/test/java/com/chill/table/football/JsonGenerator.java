@@ -37,6 +37,6 @@ public class JsonGenerator {
     }
 
     private CreateMatchWithPlayersRequestDTO.Team createTeam(Long firstId, Long secondId) {
-        return new CreateMatchWithPlayersRequestDTO.Team("TEST", ImmutableSet.of(firstId, secondId));
+        return new CreateMatchWithPlayersRequestDTO.Team("TEST", firstId, secondId);
     }
 }

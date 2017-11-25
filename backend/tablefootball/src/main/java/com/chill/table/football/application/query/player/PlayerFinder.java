@@ -20,7 +20,7 @@ public class PlayerFinder {
 
     public PlayerProjection findByIdOrThrow(Long playerId) {
         return findById(playerId)
-                .orElseThrow(() -> new PlayerNotFoundException("Player with id " + playerId + " not found"));
+                .orElseThrow(() -> new PlayerNotFoundException(playerId));
     }
 
     public List<PlayerProjection> findAll() {

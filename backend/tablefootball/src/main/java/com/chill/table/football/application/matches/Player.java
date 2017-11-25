@@ -14,24 +14,16 @@ public class Player {
     @Column(nullable = false)
     private Long userId;
 
-    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL)
-    private Set<Acceptation> acceptations = new HashSet<>();
-
-    @ManyToMany(cascade = CascadeType.ALL)
-    private Set<Team> teams = new HashSet<>();
+    private Player() {
+        // dla hibernate
+    }
 
     Player(Long userId) {
         this.userId = userId;
     }
 
-    Player appendTeam(Team team) {
-        teams.add(team);
-        return this;
-    }
-
-    Player invite(Match match) {
-        acceptations.add(new Acceptation(this, match));
-        return this;
+    public Long getId() {
+        return id;
     }
 
 }

@@ -3,8 +3,6 @@ package com.chill.table.football.application.matches;
 
 import javax.persistence.*;
 
-// TODO jakieś daty?
-// TODO przymyśleć jeszcze raz czy tak to ma działać
 @Entity
 public class Acceptation {
 
@@ -41,6 +39,36 @@ public class Acceptation {
     Acceptation markTimedOut() {
         this.state = State.TIMED_OUT;
         return this;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    boolean isAccepted() {
+        return state == State.ACCEPTED;
+    }
+
+    boolean tryAccept(Acceptation toAccept) {
+        if (this.equals(toAccept)) {
+            state = State.ACCEPTED;
+            return true;
+        }
+        return false;
+    }
+
+    boolean tryReject(Acceptation toReject) {
+        if (this.equals(toReject)) {
+            state = State.REJECTED;
+            return true;
+        }
+        return false;
+    }
+
+    void timeoutIfNeverReacted() {
+        if (state == State.PADDING) {
+            markTimedOut();
+        }
     }
 
     public enum State {

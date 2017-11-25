@@ -1,7 +1,10 @@
 package com.chill.table.football.application.matches;
 
+import com.google.common.collect.ImmutableSet;
+import jdk.nashorn.internal.ir.annotations.Immutable;
+
 import javax.persistence.*;
-import java.util.HashSet;
+import java.util.Collection;
 import java.util.Set;
 
 @Entity
@@ -14,20 +17,28 @@ public class Team {
     @Column(unique = true, nullable = false, name = "NAME")
     private String name;
 
-    @ManyToMany(mappedBy = "teams", cascade = CascadeType.ALL)
-    private Set<Player> players = new HashSet<>();
+    @OneToOne(cascade = CascadeType.ALL)
+    private Player firstPlayer;
 
-    Team(String name) {
+    @OneToOne(cascade = CascadeType.ALL)
+    private Player secondPlayer;
+
+    private Team() {
+        // dla hibernate
+    }
+
+    Team(String name, Player firstPlayer, Player secondPlayer) {
         this.name = name;
+        this.firstPlayer = firstPlayer;
+        this.secondPlayer = secondPlayer;
     }
 
     Long getId() {
         return id;
     }
 
-    Team appendPlayer(Player player) {
-        players.add(player);
-        return this;
+    Set<Acceptation> createAcceptations(Match match) {
+        return ImmutableSet.of(new Acceptation(firstPlayer, match), new Acceptation(secondPlayer, match));
     }
-
 }
+
