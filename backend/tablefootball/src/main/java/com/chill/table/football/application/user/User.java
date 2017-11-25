@@ -27,15 +27,21 @@ public class User {
     @Column(name = "PASSWORD", nullable = false)
     private String password;
 
+    private String firstName;
+
+    private String lastName;
+
     @ManyToMany
     @JoinTable(name = "TEAMS_USERS",
             joinColumns = {@JoinColumn(name = "USER_ID")},
             inverseJoinColumns = {@JoinColumn(name = "TEAM_ID")})
     private Set<Team> teams;
 
-    public User(final String userName, final String password) {
+    public User(final String userName, final String password, String firstName, String lastName) {
         this.userName = userName;
         this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
 }

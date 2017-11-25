@@ -1,5 +1,7 @@
 package com.chill.table.football.application.matches;
 
+import com.chill.table.football.application.user.User;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -11,15 +13,15 @@ public class Player {
     @GeneratedValue
     private Long id;
 
-    @Column(nullable = false)
-    private Long userId;
+    @OneToOne
+    private User user;
 
     private Player() {
         // dla hibernate
     }
 
-    Player(Long userId) {
-        this.userId = userId;
+    Player(User user) {
+        this.user = user;
     }
 
     public Long getId() {
