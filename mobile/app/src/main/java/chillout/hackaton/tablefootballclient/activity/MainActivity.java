@@ -17,10 +17,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import chillout.hackaton.tablefootballclient.R;
+import chillout.hackaton.tablefootballclient.fragment.CreateMatchFragment;
 import chillout.hackaton.tablefootballclient.fragment.MatchesListFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+
+    private FloatingActionButton fab;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,13 +34,14 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO  move to creating fragment
-                Snackbar.make(view, "Open Create match", Snackbar.LENGTH_LONG)
-                       .show();
+                Fragment fragment = new CreateMatchFragment();
+                moveToFragment(fragment);
+//                Snackbar.make(view, "Open Create match", Snackbar.LENGTH_LONG)
+//                       .show();
             }
         });
 
@@ -116,5 +122,9 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         setTitle(item.getTitle());
         return true;
+    }
+
+    public void setFabVisibility(int visibility){
+        fab.setVisibility(visibility);
     }
 }

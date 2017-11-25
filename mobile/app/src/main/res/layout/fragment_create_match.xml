@@ -1,39 +1,82 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="chillout.hackaton.tablefootballclient.fragment.CreateMatchFragment">
 
 
     <TextView
+        android:layout_marginTop="30dp"
+
         android:id="@+id/choosePlayersTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
         android:text="@string/choose_players"
-        android:textSize="30sp"/>
+        android:textSize="30sp"
+        android:textColor="@android:color/black"/>
 
     <Spinner
         android:id="@+id/spinnerYou"
-        android:layout_below="@id/choosePlayersTV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"/>
 
     <Spinner
         android:id="@+id/spinnerFriend"
-        android:layout_below="@id/spinnerYou"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"/>
 
 
     <TextView
-        android:layout_below="@id/spinnerFriend"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="VS"
-        android:layout_centerHorizontal="true"
+        android:textColor="@android:color/black"
+        android:textSize="35sp"
+        android:layout_gravity="center_horizontal"
         />
 
-</RelativeLayout>
+    <Spinner
+        android:id="@+id/spinnerOpponentOne"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp" />
+
+    <Spinner
+        android:id="@+id/spinnerOpponentTwo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"/>
+
+
+    <TextView
+        android:layout_marginTop="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/match_time"
+        android:textColor="@android:color/black"
+        android:textSize="35sp"
+        android:layout_gravity="center_horizontal" />
+
+
+    <Button
+        android:id="@+id/timeEditText"
+        android:focusable="false"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="00:00"
+        android:textSize="30sp"
+        android:layout_gravity="center_horizontal"/>
+
+    <Button
+        android:layout_marginTop="30dp"
+        android:id="@+id/createMatchButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/create_match"
+        android:layout_gravity="center_horizontal"
+        />
+</LinearLayout>
