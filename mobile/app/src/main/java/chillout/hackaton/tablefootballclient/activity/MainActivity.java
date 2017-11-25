@@ -23,6 +23,7 @@ import chillout.hackaton.tablefootballclient.fragment.MatchesListFragment;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private Long id;
 
     private FloatingActionButton fab;
 

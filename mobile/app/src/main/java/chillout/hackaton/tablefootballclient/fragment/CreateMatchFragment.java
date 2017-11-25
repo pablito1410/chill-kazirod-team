@@ -23,7 +23,6 @@ import org.joda.time.DateTime;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import chillout.hackaton.tablefootballclient.R;
@@ -32,7 +31,6 @@ import chillout.hackaton.tablefootballclient.activity.MainActivity;
 import chillout.hackaton.tablefootballclient.api.ApiClient;
 import chillout.hackaton.tablefootballclient.api.TableFootballService;
 import chillout.hackaton.tablefootballclient.api.request.CreateMatchRequest;
-import chillout.hackaton.tablefootballclient.api.request.Team;
 import chillout.hackaton.tablefootballclient.api.response.BasicUser;
 import chillout.hackaton.tablefootballclient.components.adapter.PlayerRecyclerViewAdapter;
 import okhttp3.ResponseBody;
@@ -116,6 +114,7 @@ public class CreateMatchFragment extends Fragment {
     private void addToTeam(List<BasicUser> team, BasicUser user) {
         if(team.size() < 2) {
             team.add(user);
+            mRvAdapter.addToChosenPlayers();
             reloadTeamUI();
         }
     }
@@ -204,7 +203,7 @@ public class CreateMatchFragment extends Fragment {
         Long firstId = myTeam.get(0).getId();
         Long secondId = myTeam.get(1).getId();
 
-        Team firstTeam = new Team(teamNameBuilder.toString(),firstId,secondId);
+        CreateMatchRequest.Team firstTeam = new CreateMatchRequest.Team(teamNameBuilder.toString(),firstId,secondId);
 
         teamNameBuilder = new StringBuilder();
         for (BasicUser user:  oppositeTeam) {
@@ -212,7 +211,7 @@ public class CreateMatchFragment extends Fragment {
         }
         firstId = oppositeTeam.get(0).getId();
         secondId =  oppositeTeam.get(1).getId();
-        Team secondTeam = new Team(teamNameBuilder.toString(),firstId,secondId);
+        CreateMatchRequest.Team secondTeam = new CreateMatchRequest.Team(teamNameBuilder.toString(),firstId,secondId);
         mCreateMatchTask = new CreateMatchAsyncTask(firstTeam,secondTeam,matchTime);
         mCreateMatchTask.execute((Void)null);
     }
@@ -231,11 +230,6 @@ public class CreateMatchFragment extends Fragment {
         mRvAdapter.setBasicUserList(usersToChoose);
         showProgress(false);
     }
-
-
-
-
-
 
     private void showProgress(final boolean show) {
         int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
@@ -308,11 +302,11 @@ public class CreateMatchFragment extends Fragment {
 
     public class CreateMatchAsyncTask extends AsyncTask<Void, Void, Boolean> {
 
-        private Team firstTeam;
-        private Team secondTeam;
+        private CreateMatchRequest.Team firstTeam;
+        private CreateMatchRequest.Team secondTeam;
         private DateTime dateTime;
 
-        public CreateMatchAsyncTask(Team firstTeam, Team secondTeam, DateTime dateTime) {
+        public CreateMatchAsyncTask(CreateMatchRequest.Team firstTeam, CreateMatchRequest.Team secondTeam, DateTime dateTime) {
             this.firstTeam = firstTeam;
             this.secondTeam = secondTeam;
             this.dateTime = dateTime;

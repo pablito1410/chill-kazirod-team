@@ -55,10 +55,13 @@ public class PlayerRecyclerViewAdapter extends RecyclerView.Adapter<PlayerRecycl
         notifyDataSetChanged();
     }
 
+    public void addToChosenPlayers() {
+        choosenPlayers.add(position);
+        notifyDataSetChanged();
+    }
+
     public BasicUser getItem() {
         if(position != null){
-            choosenPlayers.add(position);
-            notifyDataSetChanged();
             return basicUserList.get(position);
         }
         return null;

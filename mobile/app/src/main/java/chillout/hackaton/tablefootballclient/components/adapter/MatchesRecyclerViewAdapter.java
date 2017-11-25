@@ -1,12 +1,11 @@
 package chillout.hackaton.tablefootballclient.components.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -20,9 +19,11 @@ import chillout.hackaton.tablefootballclient.model.MatchInfo;
 public class MatchesRecyclerViewAdapter extends RecyclerView.Adapter<MatchesRecyclerViewAdapter.ViewHolder> {
 
     private List<MatchInfo> matchInfoList;
+    private Context context;
 
-    public MatchesRecyclerViewAdapter(List<MatchInfo> matchInfoList) {
+    public MatchesRecyclerViewAdapter(List<MatchInfo> matchInfoList, Context context) {
         this.matchInfoList = matchInfoList;
+        this.context = context;
     }
 
     @Override
@@ -42,6 +43,9 @@ public class MatchesRecyclerViewAdapter extends RecyclerView.Adapter<MatchesRecy
 
         holder.teamOneScoreTV.setText(Integer.toString(matchInfo.getTeamOneScore()));
         holder.teamTwoScoreTV.setText(Integer.toString(matchInfo.getTeamTwoScore()));
+
+        holder.statusTV.setText(matchInfo.getMatchState().getText());
+        holder.statusTV.setTextColor(context.getResources().getColor(matchInfo.getMatchState().getResourceTextColor()));
     }
 
     @Override
@@ -59,6 +63,8 @@ public class MatchesRecyclerViewAdapter extends RecyclerView.Adapter<MatchesRecy
         TextView teamOneScoreTV;
         TextView teamTwoScoreTV;
 
+        TextView statusTV;
+
         //TODO
 
 
@@ -72,6 +78,8 @@ public class MatchesRecyclerViewAdapter extends RecyclerView.Adapter<MatchesRecy
 
             teamOneScoreTV = itemView.findViewById(R.id.team1Score);
             teamTwoScoreTV = itemView.findViewById(R.id.team2Score);
+
+            statusTV = itemView.findViewById(R.id.match_status);
         }
     }
 }
