@@ -27,7 +27,7 @@ public class User {
     @Column(name = "PASSWORD", nullable = false)
     private String password;
 
-    @ManyToMany()
+    @ManyToMany
     @JoinTable(name = "TEAMS_USERS",
             joinColumns = {@JoinColumn(name = "USER_ID")},
             inverseJoinColumns = {@JoinColumn(name = "TEAM_ID")})

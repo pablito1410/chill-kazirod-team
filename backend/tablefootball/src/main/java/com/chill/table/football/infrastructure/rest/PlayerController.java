@@ -2,15 +2,13 @@ package com.chill.table.football.infrastructure.rest;
 
 import com.chill.table.football.application.query.player.PlayerFinder;
 import com.chill.table.football.application.query.player.PlayerProjection;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
 import java.util.List;
 import java.util.Objects;
 
+@CrossOrigin
 @RestController
 @RequestMapping("api/player")
 public class PlayerController {
