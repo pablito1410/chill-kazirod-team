@@ -14,12 +14,6 @@ public class Player {
     @Column(nullable = false)
     private Long userId;
 
-    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL)
-    private Set<Acceptation> acceptations = new HashSet<>();
-
-    @ManyToMany(cascade = CascadeType.ALL)
-    private Set<Team> teams = new HashSet<>();
-
     private Player() {
         // dla hibernate
     }
@@ -30,11 +24,6 @@ public class Player {
 
     public Long getId() {
         return id;
-    }
-
-    Player appendTeam(Team team) {
-        teams.add(team);
-        return this;
     }
 
 }

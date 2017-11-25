@@ -71,8 +71,6 @@ public class MatchesService {
         Player firstPlayer = getOrCreatePlayer(teamDTO.getFirstPlayer());
         Player secondPlayer = getOrCreatePlayer(teamDTO.getSecondPlayer());
         Team team = new Team(teamDTO.getName(), firstPlayer, secondPlayer);
-        firstPlayer.appendTeam(team);
-        secondPlayer.appendTeam(team);
         return team;
     }
 
