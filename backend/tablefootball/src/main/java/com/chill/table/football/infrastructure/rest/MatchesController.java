@@ -44,7 +44,7 @@ class MatchesController {
     }
 
     @GetMapping("/{matchId}")
-    MatchProjection getOne(@PathParam("matchId") Long matchId) {
+    MatchProjection getOne(@PathVariable("matchId") Long matchId) {
         return matchesFinder.findOrThrow(matchId);
     }
 

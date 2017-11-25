@@ -18,7 +18,7 @@ public class TeamController {
     }
 
     @GetMapping("/{teamId}")
-    TeamProjection getOne(Long teamId) {
+    TeamProjection getOne(@PathVariable("teamId") Long teamId) {
         return teamFinder.findOneOrThrow(teamId);
     }
 
@@ -28,7 +28,7 @@ public class TeamController {
     }
 
     @GetMapping
-    TeamProjection getByName(@PathVariable("name") String name) {
+    TeamProjection getByName(@RequestParam(value = "name") String name) {
         return teamFinder.findByName(name);
     }
 }
