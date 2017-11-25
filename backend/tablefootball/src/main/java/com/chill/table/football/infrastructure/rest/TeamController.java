@@ -27,8 +27,8 @@ public class TeamController {
         return teamFinder.findAll();
     }
 
-    @GetMapping
-    TeamProjection getByName(@RequestParam(value = "name") String name) {
+    @GetMapping("/name/{name}")
+    TeamProjection getByName(@PathVariable("{name}") String name) {
         return teamFinder.findByName(name);
     }
 }
