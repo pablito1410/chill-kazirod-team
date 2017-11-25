@@ -15,7 +15,7 @@ public class Match {
     private Long id;
 
     @Column(nullable = false)
-    private LocalDateTime beginDateTime;
+    private LocalDateTime creationDateTime;
 
     @Column(nullable = false)
     private LocalDateTime dateTime;
@@ -35,7 +35,7 @@ public class Match {
     private Team guests;
 
     Match(LocalDateTime dateTime, Team firstTeam, Team secondTeam) {
-        this.beginDateTime = LocalDateTime.now();
+        this.creationDateTime = LocalDateTime.now();
         this.dateTime = dateTime;
         this.state = State.CREATED;
         this.home = firstTeam;

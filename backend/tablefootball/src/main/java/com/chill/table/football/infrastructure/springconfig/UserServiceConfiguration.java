@@ -1,5 +1,6 @@
 package com.chill.table.football.infrastructure.springconfig;
 
+import com.chill.table.football.application.user.UserFinder;
 import com.chill.table.football.application.user.UserService;
 import com.chill.table.football.application.user.ports.outgoing.UserDao;
 import com.chill.table.football.application.util.EntityMapper;
@@ -30,7 +31,11 @@ public class UserServiceConfiguration {
 
     @Bean
     public UserService userService(final UserDao userDao, final EntityMapper entityMapper) {
-        return new UserService(userDao, entityMapper);
+        return new UserService(userDao);
     }
 
+    @Bean
+    public UserFinder userFinder(final UserDao userDao, final EntityMapper entityMapper) {
+        return new UserFinder(userDao, entityMapper);
+    }
 }

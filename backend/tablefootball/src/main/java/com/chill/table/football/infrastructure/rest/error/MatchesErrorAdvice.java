@@ -1,6 +1,7 @@
 package com.chill.table.football.infrastructure.rest.error;
 
 import com.chill.table.football.application.matches.exception.MatchDoesNotContainTeam;
+import com.chill.table.football.application.matches.exception.MatchExistsWithTooCloseDateTime;
 import com.chill.table.football.application.matches.exception.MatchNotFoundException;
 import com.chill.table.football.application.matches.exception.TeamNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -26,6 +27,12 @@ class MatchesErrorAdvice {
     @ExceptionHandler(MatchDoesNotContainTeam.class)
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     ErrorResponse handleMatchDoesNotContainTeam(MatchDoesNotContainTeam e) {
+        return new ErrorResponse(e.getMessage());
+    }
+
+    @ExceptionHandler(MatchExistsWithTooCloseDateTime.class)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    ErrorResponse handleMatchExistsWithTooCloseDateTime(MatchExistsWithTooCloseDateTime e) {
         return new ErrorResponse(e.getMessage());
     }
 }
