@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Transactional
 public class MatchesService {
@@ -32,6 +33,7 @@ public class MatchesService {
         this.matchesRepository = Objects.requireNonNull(matchesRepository);
         this.teamRepository = Objects.requireNonNull(teamRepository);
         this.playerRepository = Objects.requireNonNull(playerRepository);
+
         this.matchesFinder = Objects.requireNonNull(matchesFinder);
         this.userFinder = Objects.requireNonNull(userFinder);
     }
@@ -55,21 +57,25 @@ public class MatchesService {
     }
 
     private Team getOrCreateTeam(CreateMatchRequestDTO.Team teamDTO) {
-        Set<Long> playerIds = teamDTO.getPlayers();
-        Optional<Team> team = teamRepository.findTop1ByIdIn(playerIds);
+        Optional<Team> team = teamRepository.findTop1ByIdIn(teamDTO.getPlayers());
         return team.orElse(createTeamFromDTO(teamDTO));
     }
 
     private Team createTeamFromDTO(CreateMatchRequestDTO.Team teamDTO) {
         Team team = new Team();
-        teamDTO.getPlayers().forEach(p -> team.appendPlayer(getOrCreatePlayer(p, team)));
+        Set<Player> players = teamDTO.getPlayers()
+                .stream()
+                .map(this::getOrCreatePlayer)
+                .collect(Collectors.toSet());
+        players.forEach(team::appendPlayer);
+        players.forEach(p -> p.appendTeam(team));
         return team;
     }
 
-    private Player getOrCreatePlayer(Long playerId, Team team) {
+    private Player getOrCreatePlayer(Long playerId) {
         UserDTO user = userFinder.getUser(playerId);
         Optional<Player> player = playerRepository.findById(playerId);
-        return player.orElse(new Player(user.getId())).appendTeam(team);
+        return player.orElse(new Player(user.getId()));
     }
 
     public EndMatchResponseDTO endMatch(EndMatchRequestDTO endMatchRequestDTO) {
