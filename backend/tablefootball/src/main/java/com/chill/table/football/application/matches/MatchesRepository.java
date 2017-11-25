@@ -20,17 +20,6 @@ public interface MatchesRepository {
                 .orElseThrow(() -> new MatchNotFoundException(matchId));
     }
 
-    List<Match> findAll();
-
-    interface UserRepository {
-        Optional<Player> findById(Long playerId);
-
-        default Player findByIdOrThrow(Long playerId) {
-            return findById(playerId)
-                    .orElseThrow(() -> new PlayerNotFoundException(playerId));
-        }
-    }
-
     interface TeamRepository {
         Optional<Team> findByFirstPlayerIdAndSecondPlayerId(Long firstPlayer, Long secondPlayer);
 

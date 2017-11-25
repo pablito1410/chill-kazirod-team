@@ -19,9 +19,4 @@ public interface PlayerRepository {
                .orElseThrow(() -> new PlayerNotFoundException(playerId));
     }
 
-    default Player findByUserNameOrThrow(String userName) {
-        return findByUserName(userName)
-                .orElseThrow(() -> new PlayerAlreadyExistException(userName));
-    }
-
 }

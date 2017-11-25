@@ -16,6 +16,7 @@ import com.chill.table.football.application.user.PlayerRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
+import java.util.Optional;
 
 @Transactional
 public class MatchesService {
@@ -28,9 +29,11 @@ public class MatchesService {
     private PlayerRepository playerRepository;
 
     public MatchesService(MatchesRepository matchesRepository, MatchesRepository.TeamRepository teamRepository,
+                          MatchesRepository.AcceptationRepository acceptationRepository,
                           MatchesFinder matchesFinder, PlayerRepository playerRepository) {
         this.matchesRepository = Objects.requireNonNull(matchesRepository);
         this.teamRepository = Objects.requireNonNull(teamRepository);
+        this.acceptationRepository = Objects.requireNonNull(acceptationRepository);
 
         this.matchesFinder = Objects.requireNonNull(matchesFinder);
         this.playerRepository = Objects.requireNonNull(playerRepository);
@@ -58,21 +61,15 @@ public class MatchesService {
         Long firstPlayer = teamDTO.getFirstPlayer();
         Long secondPlayer = teamDTO.getSecondPlayer();
         return teamRepository.findByFirstPlayerIdAndSecondPlayerId(firstPlayer, secondPlayer)
-                .orElse(teamRepository.findByFirstPlayerIdAndSecondPlayerId(secondPlayer, firstPlayer)
-                    .orElse(createTeamFromDTO(teamDTO)));
+                .orElseGet(() ->  teamRepository.findByFirstPlayerIdAndSecondPlayerId(secondPlayer, firstPlayer)
+                        .orElse(createTeamFromDTO(teamDTO)));
     }
 
     private Team createTeamFromDTO(CreateMatchWithPlayersRequestDTO.Team teamDTO) {
         teamRepository.findByName(teamDTO.getName()).ifPresent(p -> { throw new TeamNameAlreadyExistException(teamDTO.getName()); });
-        Player firstPlayer = getOrCreatePlayer(teamDTO.getFirstPlayer());
-        Player secondPlayer = getOrCreatePlayer(teamDTO.getSecondPlayer());
-        Team team = new Team(teamDTO.getName(), firstPlayer, secondPlayer);
-        return team;
-    }
-
-    // TODO nie ma konta - wyjątek
-    private Player getOrCreatePlayer(Long playerId) {
-        return playerRepository.findByIdOrThrow(playerId);
+        Player firstPlayer = playerRepository.findByIdOrThrow(teamDTO.getFirstPlayer());
+        Player secondPlayer = playerRepository.findByIdOrThrow(teamDTO.getSecondPlayer());
+        return new Team(teamDTO.getName(), firstPlayer, secondPlayer);
     }
 
     public EndMatchResponseDTO endMatch(EndMatchRequestDTO endMatchRequestDTO) {

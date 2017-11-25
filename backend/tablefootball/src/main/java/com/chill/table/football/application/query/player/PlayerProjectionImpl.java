@@ -3,13 +3,13 @@ package com.chill.table.football.application.query.player;
 import lombok.Value;
 
 @Value
-class PlayerProjectionImpl implements PlayerProjection {
+public class PlayerProjectionImpl implements PlayerProjection {
     private Long id;
     private String userName;
     private String firstName;
     private String lastName;
 
-    PlayerProjectionImpl(PlayerProjection playerProjection) {
+    public PlayerProjectionImpl(PlayerProjection playerProjection) {
         this.id = playerProjection.getId();
         this.userName = playerProjection.getUserName();
         this.firstName = playerProjection.getFirstName();

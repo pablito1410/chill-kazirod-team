@@ -13,30 +13,29 @@ import java.util.List;
 @CrossOrigin
 @RestController
 @RequestMapping("/api/users")
-public class PlayerController {
+class PlayerController {
 
-    private final CommandGateway commandGateway;
-    private final PlayerFinder playerFinder;
+    private CommandGateway commandGateway;
+    private PlayerFinder playerFinder;
 
-    @Autowired
-    public PlayerController(final CommandGateway commandGateway,
-                            final PlayerFinder playerFinder) {
+    PlayerController(CommandGateway commandGateway,
+                     PlayerFinder playerFinder) {
         this.commandGateway = commandGateway;
         this.playerFinder = playerFinder;
     }
 
     @RequestMapping(path = "/create", method = RequestMethod.POST)
-    public CreateUserResponseDTO createUser(@RequestBody final CreateUserRequestDTO requestDTO) {
+    CreateUserResponseDTO createUser(@RequestBody final CreateUserRequestDTO requestDTO) {
         return commandGateway.dispatch(requestDTO);
     }
 
     @RequestMapping(path = "/{id}", method = RequestMethod.GET)
-    public PlayerProjection get(@PathVariable(name = "id") final long id) {
+    PlayerProjection get(@PathVariable(name = "id") final long id) {
         return playerFinder.findByIdOrThrow(id);
     }
 
     @RequestMapping(path = "/all", method = RequestMethod.GET)
-    public List<PlayerProjection> getAll() {
+    List<PlayerProjection> getAll() {
         return playerFinder.findAll();
     }
 }

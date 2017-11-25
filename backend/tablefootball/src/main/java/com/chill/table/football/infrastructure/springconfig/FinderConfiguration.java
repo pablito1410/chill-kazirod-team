@@ -28,8 +28,8 @@ class FinderConfiguration {
     }
 
     @Bean
-    com.chill.table.football.application.query.player.PlayerFinder playerFinder(PlayerFinderRepository playerFinderRepository) {
-        return new com.chill.table.football.application.query.player.PlayerFinder(playerFinderRepository);
+    PlayerFinder playerFinder(PlayerFinderRepository playerFinderRepository) {
+        return new PlayerFinder(playerFinderRepository);
     }
 
     @Bean

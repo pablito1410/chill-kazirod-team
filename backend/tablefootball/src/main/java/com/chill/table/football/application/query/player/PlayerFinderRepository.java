@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-interface PlayerFinderRepository extends JpaRepository<Player, Long> {
+public interface PlayerFinderRepository extends JpaRepository<Player, Long> {
 
     Optional<PlayerProjection> findById(Long playerId);
 

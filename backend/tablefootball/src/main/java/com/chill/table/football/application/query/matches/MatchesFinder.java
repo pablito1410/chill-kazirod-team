@@ -1,6 +1,5 @@
 package com.chill.table.football.application.query.matches;
 
-import com.chill.table.football.application.matches.Match;
 import com.chill.table.football.application.matches.exception.MatchNotFoundException;
 
 import java.time.LocalDateTime;

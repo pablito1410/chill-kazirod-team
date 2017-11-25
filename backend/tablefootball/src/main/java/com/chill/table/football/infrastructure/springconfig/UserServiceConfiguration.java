@@ -8,15 +8,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class UserServiceConfiguration {
+class UserServiceConfiguration {
 
     @Bean
-    public ModelMapper modelMapper() {
+    ModelMapper modelMapper() {
         return new ModelMapper();
     }
 
     @Bean
-    public PlayerService userService(final PlayerRepository playerRepository, final PasswordEncoder passwordEncoder) {
+    PlayerService userService(final PlayerRepository playerRepository, final PasswordEncoder passwordEncoder) {
         return new PlayerService(playerRepository, passwordEncoder);
     }
 

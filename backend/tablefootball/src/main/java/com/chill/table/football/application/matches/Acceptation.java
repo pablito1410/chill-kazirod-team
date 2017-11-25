@@ -21,6 +21,10 @@ public class Acceptation {
     @Enumerated(EnumType.STRING)
     private State state;
 
+    Acceptation() {
+        // hibernate
+    }
+
     Acceptation(Player player, Match match) {
         this.player = player;
         this.match = match;
