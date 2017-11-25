@@ -76,12 +76,10 @@ public class MatchesService {
         return team;
     }
 
-    // TODO odkomentować
     private Player getOrCreatePlayer(Long playerId) {
-//        UserDTO user = userFinder.getUser(playerId);
+        UserDTO user = userFinder.getUser(playerId);
         return playerRepository.findById(playerId)
-//                .orElse(new Player(user.getId()));
-                    .orElse(new Player(playerId));
+                .orElse(new Player(user.getId()));
     }
 
     public EndMatchResponseDTO endMatch(EndMatchRequestDTO endMatchRequestDTO) {
