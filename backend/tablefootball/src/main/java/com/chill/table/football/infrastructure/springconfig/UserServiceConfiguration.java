@@ -2,7 +2,7 @@ package com.chill.table.football.infrastructure.springconfig;
 
 import com.chill.table.football.application.user.UserFinder;
 import com.chill.table.football.application.user.UserService;
-import com.chill.table.football.application.user.ports.outgoing.UserDao;
+import com.chill.table.football.application.user.UserDao;
 import com.chill.table.football.application.util.EntityMapper;
 import com.chill.table.football.infrastructure.repository.user.SpringDataUserRepository;
 import com.chill.table.football.infrastructure.repository.user.UserRepository;
