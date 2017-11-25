@@ -5,7 +5,7 @@ import lombok.Value;
 
 @Value
 @Builder
-public class CreateMatchResponseDTO {
+public class CreateMatchWithPlayersResponseDTO {
     private Long matchId;
     private Long firstTeamId;
     private Long secondTeamId;

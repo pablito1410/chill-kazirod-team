@@ -1,8 +1,8 @@
 package com.chill.table.football.infrastructure.rest;
 
-import com.chill.table.football.application.matches.dto.in.CreateMatchRequestDTO;
+import com.chill.table.football.application.matches.dto.in.CreateMatchWithPlayersRequestDTO;
 import com.chill.table.football.application.matches.dto.in.EndMatchRequestDTO;
-import com.chill.table.football.application.matches.dto.out.CreateMatchResponseDTO;
+import com.chill.table.football.application.matches.dto.out.CreateMatchWithPlayersResponseDTO;
 import com.chill.table.football.application.matches.dto.out.EndMatchResponseDTO;
 import com.chill.table.football.application.query.matches.MatchesFinder;
 import com.chill.table.football.application.query.matches.MatchProjection;
@@ -27,7 +27,7 @@ class MatchesController {
     }
 
     @PostMapping
-    CreateMatchResponseDTO createMatch(@RequestBody @Valid CreateMatchRequestDTO requestDTO) {
+    CreateMatchWithPlayersResponseDTO createMatch(@RequestBody @Valid CreateMatchWithPlayersRequestDTO requestDTO) {
         return commandGateway.dispatch(requestDTO);
     }
 

@@ -11,15 +11,15 @@ public class Team {
     @GeneratedValue
     private Long id;
 
-//    @Column(nullable = false, name = "NAME")
-//    private String name;
+    @Column(unique = true, nullable = false, name = "NAME")
+    private String name;
 
     @ManyToMany(mappedBy = "teams", cascade = CascadeType.ALL)
     private Set<Player> players = new HashSet<>();
 
-//    Team(String name) {
-//        this.name = name;
-//    }
+    Team(String name) {
+        this.name = name;
+    }
 
     Long getId() {
         return id;

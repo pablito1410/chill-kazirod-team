@@ -1,5 +1,6 @@
 package com.chill.table.football.application.query.matches;
 
+import com.chill.table.football.application.matches.Match;
 import com.chill.table.football.application.matches.exception.MatchNotFoundException;
 
 import java.time.LocalDateTime;
@@ -38,4 +39,5 @@ public class MatchesFinder {
         return findById(matchId)
             .orElseThrow(() -> new MatchNotFoundException("match with id = " + matchId + " does not exist"));
     }
+
 }

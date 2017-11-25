@@ -1,8 +1,7 @@
 package com.chill.table.football.application.matches;
 
-import com.chill.table.football.application.matches.dto.out.CreateMatchResponseDTO;
+import com.chill.table.football.application.matches.dto.out.CreateMatchWithPlayersResponseDTO;
 import com.chill.table.football.application.matches.exception.MatchDoesNotContainTeam;
-import org.apache.tomcat.jni.Local;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -42,8 +41,8 @@ public class Match {
         this.secondTeam = secondTeam;
     }
 
-    CreateMatchResponseDTO toCreateMatchResponseDTO() {
-        return CreateMatchResponseDTO.builder()
+    CreateMatchWithPlayersResponseDTO toCreateMatchResponseDTO() {
+        return CreateMatchWithPlayersResponseDTO.builder()
                 .matchId(id)
                 .firstTeamId(firstTeam.getId())
                 .secondTeamId(secondTeam.getId())
@@ -55,5 +54,10 @@ public class Match {
         if (!firstTeam.equals(winningTeam) || !secondTeam.equals(winningTeam)) {
             throw new MatchDoesNotContainTeam("Match with id = " + id + " does not contain team with id = " + winningTeam.getId());
         }
+        this.endDateTime = LocalDateTime.now();
+    }
+
+    enum State {
+        CREATED, ACCEPTED, STARTED, ENDED;
     }
 }

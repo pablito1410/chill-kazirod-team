@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-interface MatchesFinderRepository extends JpaRepository<Match, Long> {
+public interface MatchesFinderRepository extends JpaRepository<Match, Long> {
 
     Optional<MatchDateTimeProjection> findByDateTimeBetween(LocalDateTime after, LocalDateTime before);
 
