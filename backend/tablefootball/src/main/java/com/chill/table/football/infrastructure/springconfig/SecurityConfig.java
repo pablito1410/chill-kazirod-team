@@ -1,9 +1,10 @@
 package com.chill.table.football.infrastructure.springconfig;
 
-import com.chill.table.football.application.user.UserService;
+import com.chill.table.football.application.query.user.UserFinder;
 import com.chill.table.football.infrastructure.authentication.JwtAuthenticationFilter;
 import com.chill.table.football.infrastructure.authentication.JwtLoginFilter;
 import com.chill.table.football.infrastructure.authentication.UserAuthService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -18,14 +19,18 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private final UserFinder userFinder;
     private final UserAuthService userAuthService;
-    private final UserService userService;
+    private final ObjectMapper objectMapper;
 
     @Autowired
-    public SecurityConfig(final UserAuthService userAuthService, final UserService userService) {
+    public SecurityConfig(final UserFinder userFinder,
+                          final UserAuthService userAuthService,
+                          final ObjectMapper objectMapper) {
         super();
+        this.userFinder = userFinder;
         this.userAuthService = userAuthService;
-        this.userService = userService;
+        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -38,20 +43,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginProcessingUrl("/login")
                 .failureUrl("/login?error")
-                .usernameParameter("userName")
                 .permitAll()
                 .and()
                 .logout()
                 .logoutUrl("/logout")
                 .deleteCookies("remember-me")
-                .logoutSuccessUrl("/")
+                .logoutSuccessUrl("/dupa")
                 .permitAll()
                 .and()
                 .rememberMe()
                 .and()
-                .addFilterBefore(new JwtLoginFilter("/login", authenticationManager()),
+                .addFilterBefore(new JwtLoginFilter("/login", authenticationManager(), objectMapper),
                         UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new JwtAuthenticationFilter(userService),
+                .addFilterBefore(new JwtAuthenticationFilter(userFinder),
                         UsernamePasswordAuthenticationFilter.class);
     }
 

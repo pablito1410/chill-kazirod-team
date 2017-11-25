@@ -1,8 +1,8 @@
-package com.chill.table.football.application.matchesfinder;
+package com.chill.table.football.application.query.matches;
 
 import com.chill.table.football.application.matches.Match;
-import com.chill.table.football.application.matchesfinder.projection.MatchDateTimeProjection;
-import com.chill.table.football.application.matchesfinder.projection.MatchProjection;
+import com.chill.table.football.application.query.matches.MatchDateTimeProjection;
+import com.chill.table.football.application.query.matches.MatchProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,6 +1,6 @@
 package com.chill.table.football;
 
-import com.chill.table.football.application.matches.dto.in.CreateMatchRequestDTO;
+import com.chill.table.football.application.matches.dto.in.CreateMatchWithPlayersRequestDTO;
 import com.chill.table.football.application.user.ports.incoming.CreateUserCommand;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,8 +24,8 @@ public class JsonGenerator {
 
     @Test
     public void generateCreateMatchJson() throws JsonProcessingException {
-        CreateMatchRequestDTO createMatchRequestDTO = new CreateMatchRequestDTO(createTeam(1L, 2L), createTeam(3L, 4L), LocalDateTime.now().plusMinutes(30));
-        String json = objectMapper.writeValueAsString(createMatchRequestDTO);
+        CreateMatchWithPlayersRequestDTO createMatchWithPlayersRequestDTO = new CreateMatchWithPlayersRequestDTO(createTeam(1L, 2L), createTeam(3L, 4L), LocalDateTime.now().plusMinutes(30));
+        String json = objectMapper.writeValueAsString(createMatchWithPlayersRequestDTO);
         System.out.println(json);
     }
 
@@ -36,7 +36,7 @@ public class JsonGenerator {
         System.out.println(json);
     }
 
-    private CreateMatchRequestDTO.Team createTeam(Long firstId, Long secondId) {
-        return new CreateMatchRequestDTO.Team(ImmutableSet.of(firstId, secondId));
+    private CreateMatchWithPlayersRequestDTO.Team createTeam(Long firstId, Long secondId) {
+        return new CreateMatchWithPlayersRequestDTO.Team("TEST", ImmutableSet.of(firstId, secondId));
     }
 }

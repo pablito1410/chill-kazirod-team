@@ -1,5 +1,6 @@
-package com.chill.table.football.application.user;
+package com.chill.table.football.application.query.user;
 
+import com.chill.table.football.application.user.User;
 import com.chill.table.football.application.user.exception.UserNotFoundException;
 import com.chill.table.football.application.user.ports.outgoing.UserDTO;
 import com.chill.table.football.application.util.EntityMapper;
@@ -11,10 +12,10 @@ import java.util.List;
 
 public class UserFinder {
 
-    private final UserDao userDao;
+    private final UserFinderDao userDao;
     private final EntityMapper entityMapper;
 
-    public UserFinder(final UserDao userDao,
+    public UserFinder(final UserFinderDao userDao,
                       final EntityMapper entityMapper) {
         this.userDao = userDao;
         this.entityMapper = entityMapper;
@@ -30,5 +31,9 @@ public class UserFinder {
     public Collection<UserDTO> getAll() {
         final List<User> users = userDao.getAll();
         return entityMapper.mapCollection(users, UserDTO.class, new TypeToken<HashSet<UserDTO>>(){}.getType());
+    }
+
+    public User getUserByName(final String userName) {
+        return userDao.getUser(userName);
     }
 }

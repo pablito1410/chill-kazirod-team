@@ -1,14 +1,16 @@
 package com.chill.table.football.application.matches;
 
-import com.chill.table.football.application.matches.dto.in.CreateMatchRequestDTO;
+import com.chill.table.football.application.matches.dto.in.AcceptMatchRequestDTO;
+import com.chill.table.football.application.matches.dto.in.CreateMatchWithPlayersRequestDTO;
 import com.chill.table.football.application.matches.dto.in.EndMatchRequestDTO;
-import com.chill.table.football.application.matches.dto.out.CreateMatchResponseDTO;
+import com.chill.table.football.application.matches.dto.out.AcceptMatchResponseDTO;
+import com.chill.table.football.application.matches.dto.out.CreateMatchWithPlayersResponseDTO;
 import com.chill.table.football.application.matches.dto.out.EndMatchResponseDTO;
 import com.chill.table.football.application.matches.exception.MatchExistsWithTooCloseDateTime;
 import com.chill.table.football.application.matches.exception.MatchNotFoundException;
 import com.chill.table.football.application.matches.exception.TeamNotFoundException;
-import com.chill.table.football.application.matchesfinder.MatchesFinder;
-import com.chill.table.football.application.user.UserFinder;
+import com.chill.table.football.application.query.matches.MatchesFinder;
+import com.chill.table.football.application.query.user.UserFinder;
 import com.chill.table.football.application.user.ports.outgoing.UserDTO;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,14 +23,14 @@ import java.util.stream.Collectors;
 public class MatchesService {
 
     private MatchesRepository matchesRepository;
-    private TeamRepository teamRepository;
-    private PlayerRepository playerRepository;
+    private MatchesRepository.TeamRepository teamRepository;
+    private MatchesRepository.PlayerRepository playerRepository;
 
     private MatchesFinder matchesFinder;
     private UserFinder userFinder;
 
-    public MatchesService(MatchesRepository matchesRepository, TeamRepository teamRepository,
-                          PlayerRepository playerRepository, MatchesFinder matchesFinder,
+    public MatchesService(MatchesRepository matchesRepository, MatchesRepository.TeamRepository teamRepository,
+                          MatchesRepository.PlayerRepository playerRepository, MatchesFinder matchesFinder,
                           UserFinder userFinder) {
         this.matchesRepository = Objects.requireNonNull(matchesRepository);
         this.teamRepository = Objects.requireNonNull(teamRepository);
@@ -38,31 +40,31 @@ public class MatchesService {
         this.userFinder = Objects.requireNonNull(userFinder);
     }
 
-    public CreateMatchResponseDTO createMatch(CreateMatchRequestDTO createMatchRequestDTO) {
-        Objects.requireNonNull(createMatchRequestDTO);
-        CreateMatchRequestDTO.Team firstTeamDTO = createMatchRequestDTO.getFirstTeam();
-        CreateMatchRequestDTO.Team secondTeam1DTO = createMatchRequestDTO.getSecondTeam();
+    public CreateMatchWithPlayersResponseDTO createMatchWithPlayers(CreateMatchWithPlayersRequestDTO createMatchWithPlayersRequestDTO) {
+        Objects.requireNonNull(createMatchWithPlayersRequestDTO);
+        CreateMatchWithPlayersRequestDTO.Team firstTeamDTO = createMatchWithPlayersRequestDTO.getFirstTeam();
+        CreateMatchWithPlayersRequestDTO.Team secondTeam1DTO = createMatchWithPlayersRequestDTO.getSecondTeam();
 
         Team firstTeam = getOrCreateTeam(firstTeamDTO);
         Team secondTeam = getOrCreateTeam(secondTeam1DTO);
 
-        matchesFinder.findMatchIn30MinutesBefore(createMatchRequestDTO.getDateTime())
+        matchesFinder.findMatchIn30MinutesBefore(createMatchWithPlayersRequestDTO.getDateTime())
                 .ifPresent(m -> {
                     throw new MatchExistsWithTooCloseDateTime("Match with to close date time found = " + m.getDateTime()); });
 
-        Match match = new Match(createMatchRequestDTO.getDateTime(), firstTeam, secondTeam);
+        Match match = new Match(createMatchWithPlayersRequestDTO.getDateTime(), firstTeam, secondTeam);
         match = matchesRepository.save(match);
 
         return match.toCreateMatchResponseDTO();
     }
 
-    private Team getOrCreateTeam(CreateMatchRequestDTO.Team teamDTO) {
+    private Team getOrCreateTeam(CreateMatchWithPlayersRequestDTO.Team teamDTO) {
         Optional<Team> team = teamRepository.findTop1ByIdIn(teamDTO.getPlayers());
         return team.orElse(createTeamFromDTO(teamDTO));
     }
 
-    private Team createTeamFromDTO(CreateMatchRequestDTO.Team teamDTO) {
-        Team team = new Team();
+    private Team createTeamFromDTO(CreateMatchWithPlayersRequestDTO.Team teamDTO) {
+        Team team = new Team(teamDTO.getName());
         Set<Player> players = teamDTO.getPlayers()
                 .stream()
                 .map(this::getOrCreatePlayer)
@@ -88,5 +90,9 @@ public class MatchesService {
         match.end(team);
 
         return EndMatchResponseDTO.builder().build();
+    }
+
+    public AcceptMatchResponseDTO acceptMatch(AcceptMatchRequestDTO acceptMatchRequestDTO) {
+        return new AcceptMatchResponseDTO();
     }
 }

@@ -1,11 +1,13 @@
 package com.chill.table.football.infrastructure.rest;
 
-import com.chill.table.football.application.matches.dto.in.CreateMatchRequestDTO;
+import com.chill.table.football.application.matches.dto.in.AcceptMatchRequestDTO;
+import com.chill.table.football.application.matches.dto.in.CreateMatchWithPlayersRequestDTO;
 import com.chill.table.football.application.matches.dto.in.EndMatchRequestDTO;
-import com.chill.table.football.application.matches.dto.out.CreateMatchResponseDTO;
+import com.chill.table.football.application.matches.dto.out.AcceptMatchResponseDTO;
+import com.chill.table.football.application.matches.dto.out.CreateMatchWithPlayersResponseDTO;
 import com.chill.table.football.application.matches.dto.out.EndMatchResponseDTO;
-import com.chill.table.football.application.matchesfinder.MatchesFinder;
-import com.chill.table.football.application.matchesfinder.projection.MatchProjection;
+import com.chill.table.football.application.query.matches.MatchesFinder;
+import com.chill.table.football.application.query.matches.MatchProjection;
 import com.chill.table.football.architecture.cqrs.CommandGateway;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,13 +23,13 @@ class MatchesController {
     private CommandGateway commandGateway;
     private MatchesFinder matchesFinder;
 
-    public MatchesController(CommandGateway commandGateway, MatchesFinder matchesFinder) {
+    MatchesController(CommandGateway commandGateway, MatchesFinder matchesFinder) {
         this.commandGateway = Objects.requireNonNull(commandGateway);
         this.matchesFinder = Objects.requireNonNull(matchesFinder);
     }
 
     @PostMapping
-    CreateMatchResponseDTO createMatch(@RequestBody @Valid CreateMatchRequestDTO requestDTO) {
+    CreateMatchWithPlayersResponseDTO createMatch(@RequestBody @Valid CreateMatchWithPlayersRequestDTO requestDTO) {
         return commandGateway.dispatch(requestDTO);
     }
 
@@ -36,8 +38,13 @@ class MatchesController {
         return commandGateway.dispatch(requestDTO);
     }
 
-    @GetMapping(path = "/{matchId}")
-    MatchProjection getOne(@PathParam("matchId") Long matchId) {
+    @PutMapping("/accept")
+    AcceptMatchResponseDTO acceptMatch(@RequestBody @Valid AcceptMatchRequestDTO requestDTO) {
+        return null;    // TOOD obsługa
+    }
+
+    @GetMapping("/{matchId}")
+    MatchProjection getOne(@PathVariable("matchId") Long matchId) {
         return matchesFinder.findOrThrow(matchId);
     }
 
