@@ -41,6 +41,36 @@ public class Acceptation {
         return this;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    boolean isAccepted() {
+        return state == State.ACCEPTED;
+    }
+
+    boolean tryAccept(Acceptation toAccept) {
+        if (this.equals(toAccept)) {
+            state = State.ACCEPTED;
+            return true;
+        }
+        return false;
+    }
+
+    boolean tryReject(Acceptation toReject) {
+        if (this.equals(toReject)) {
+            state = State.REJECTED;
+            return true;
+        }
+        return false;
+    }
+
+    void timeoutIfNeverReacted() {
+        if (state == State.PADDING) {
+            markTimedOut();
+        }
+    }
+
     public enum State {
         PADDING, ACCEPTED, REJECTED, TIMED_OUT;
     }

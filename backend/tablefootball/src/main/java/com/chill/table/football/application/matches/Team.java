@@ -1,6 +1,11 @@
 package com.chill.table.football.application.matches;
 
+import com.google.common.collect.ImmutableSet;
+import jdk.nashorn.internal.ir.annotations.Immutable;
+
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.Set;
 
 @Entity
 public class Team {
@@ -30,6 +35,10 @@ public class Team {
 
     Long getId() {
         return id;
+    }
+
+    Set<Acceptation> createAcceptations(Match match) {
+        return ImmutableSet.of(new Acceptation(firstPlayer, match), new Acceptation(secondPlayer, match));
     }
 }
 

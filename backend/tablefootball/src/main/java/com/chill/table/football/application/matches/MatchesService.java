@@ -3,9 +3,11 @@ package com.chill.table.football.application.matches;
 import com.chill.table.football.application.matches.dto.in.AcceptMatchRequestDTO;
 import com.chill.table.football.application.matches.dto.in.CreateMatchWithPlayersRequestDTO;
 import com.chill.table.football.application.matches.dto.in.EndMatchRequestDTO;
+import com.chill.table.football.application.matches.dto.in.RejectMatchRequestDTO;
 import com.chill.table.football.application.matches.dto.out.AcceptMatchResponseDTO;
 import com.chill.table.football.application.matches.dto.out.CreateMatchWithPlayersResponseDTO;
 import com.chill.table.football.application.matches.dto.out.EndMatchResponseDTO;
+import com.chill.table.football.application.matches.dto.out.RejectMatchResponseDTO;
 import com.chill.table.football.application.matches.exception.MatchExistsWithTooCloseDateTime;
 import com.chill.table.football.application.matches.exception.TeamNameAlreadyExistException;
 import com.chill.table.football.application.query.matches.MatchesFinder;
@@ -98,5 +100,12 @@ public class MatchesService {
         Acceptation acceptation = acceptationRepository.findByIdOrThrow(acceptMatchRequestDTO.getAcceptationId());
         match.accept(acceptation);
         return new AcceptMatchResponseDTO();
+    }
+
+    public RejectMatchResponseDTO rejectMatch(RejectMatchRequestDTO acceptMatchRequestDTO) {
+        Match match = matchesRepository.findByIdOrThrow(acceptMatchRequestDTO.getMatchId());
+        Acceptation acceptation = acceptationRepository.findByIdOrThrow(acceptMatchRequestDTO.getAcceptationId());
+        match.reject(acceptation);
+        return new RejectMatchResponseDTO();
     }
 }

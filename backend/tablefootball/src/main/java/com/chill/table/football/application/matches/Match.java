@@ -1,6 +1,7 @@
 package com.chill.table.football.application.matches;
 
 import com.chill.table.football.application.matches.dto.out.CreateMatchWithPlayersResponseDTO;
+import com.chill.table.football.application.matches.exception.AcceptationNotFoundInMatchException;
 import com.chill.table.football.application.matches.exception.MatchDoesNotContainTeam;
 
 import javax.persistence.*;
@@ -53,6 +54,8 @@ public class Match {
         this.state = State.CREATED;
         this.firstTeam = firstTeam;
         this.secondTeam = secondTeam;
+        this.acceptations.addAll(firstTeam.createAcceptations(this));
+        this.acceptations.addAll(secondTeam.createAcceptations(this));
     }
 
     CreateMatchWithPlayersResponseDTO toCreateMatchResponseDTO() {
@@ -76,8 +79,42 @@ public class Match {
         return this;
     }
 
-    Match accept(Acceptation acceptation) {
-        return this;
+    Match accept(Acceptation toAccept) {
+        for (Acceptation acceptation : acceptations) {
+            if (acceptation.tryAccept(toAccept)) {
+                checkAllAccepted();
+                return this;
+            }
+        }
+        throw new AcceptationNotFoundInMatchException(toAccept.getId());
+    }
+
+    Match reject(Acceptation toReject) {
+        for (Acceptation acceptation : acceptations) {
+            if (acceptation.tryReject(toReject)) {
+                setAcceptationProcessedStatuses();
+                return this;
+            }
+        }
+        throw new AcceptationNotFoundInMatchException(toReject.getId());
+    }
+
+    private void setAcceptationProcessedStatuses() {
+        for (Acceptation acceptation : acceptations) {
+            acceptation.timeoutIfNeverReacted();
+        }
+    }
+
+    private void checkAllAccepted() {
+        boolean allAccepted = true;
+        for (Acceptation acceptation : acceptations) {
+            if (!acceptation.isAccepted()) {
+                allAccepted = false;
+            }
+        }
+        if (allAccepted) {
+            this.state = State.ACCEPTED;
+        }
     }
 
     enum State {
