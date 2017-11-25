@@ -1,14 +1,49 @@
 <clr-datagrid>
+	<clr-dg-action-bar>
+		<div class="btn-group">
+			<button type="button" class="btn btn-sm btn-secondary" (click)="openModal()">
+				<clr-icon shape="plus"></clr-icon>
+				Create
+				game
+			</button>
+			<button type="button" class="btn btn-sm btn-secondary" (click)="cancel()">
+				<clr-icon shape="close"></clr-icon>
+				Cancel
+			</button>
+		</div>
+	</clr-dg-action-bar>
 	<clr-dg-column>Id</clr-dg-column>
+	<clr-dg-column>UserName</clr-dg-column>
 	<clr-dg-column>First name</clr-dg-column>
 	<clr-dg-column>Last name</clr-dg-column>
-	<clr-dg-column>Login</clr-dg-column>
-	<clr-dg-column>Password</clr-dg-column>
-	<clr-dg-row *ngFor="let user of users">
+	<clr-dg-row *clrDgItems="let user of users" [clrDgItem]="user">
+		<clr-dg-action-overflow>
+			<button class="action-item" (click)="addToFirstTeam(user);">Add to 1st team</button>
+			<button class="action-item" (click)="addToSecondTeam(user);">Add to 2nd team</button>
+		</clr-dg-action-overflow>
 		<clr-dg-cell>{{user.id}}</clr-dg-cell>
-		<clr-dg-cell>{{user.fName}}</clr-dg-cell>
-		<clr-dg-cell>{{user.lName}}</clr-dg-cell>
-		<clr-dg-cell>{{user.login }}</clr-dg-cell>
-		<clr-dg-cell>{{user.password}}</clr-dg-cell>
+		<clr-dg-cell>{{user.userName}}</clr-dg-cell>
+		<clr-dg-cell>{{user.firstName}}</clr-dg-cell>
+		<clr-dg-cell>{{user.lastName }}</clr-dg-cell>
 	</clr-dg-row>
 </clr-datagrid>
+
+<div *ngIf="firstTeam.users?.length > 0">
+	Selected 1st team users: <span *ngFor="let user of selected1">{{user.name}}</span>
+</div>
+<div *ngIf="secondTeam.users?.length > 0">
+	Selected 2nd team users: <span *ngFor="let user of selected2">{{user.name}}</span>
+</div>
+<clr-modal [(clrModalOpen)]="showModal">
+	<h3 class="modal-title">Choose game date</h3>
+	<form [formGroup]="form">
+		<div class="form-group">
+			<label for="formFields_12">Game date</label>
+			<input type="datetime-local" id="formFields_12" formControlName="gameDate">
+		</div>
+	</form>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-outline" (click)="cancel(); showModal = false;">Cancel</button>
+		<button type="button" class="btn btn-primary" (click)="createGame(); showModal = false;">Ok</button>
+	</div>
+</clr-modal>

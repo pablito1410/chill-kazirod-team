@@ -1,6 +1,7 @@
-import {HttpClient} from '@angular/common/http';
-import {AbstractItem} from '../data/AbstractItem';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {AbstractItem} from '../data/abstract-item';
 import {environment} from '../../environments/environment';
+import {Http, RequestOptions} from '@angular/http';
 
 export abstract class AbstractService<S extends AbstractItem> {
 
@@ -17,7 +18,12 @@ export abstract class AbstractService<S extends AbstractItem> {
     post(item: S) {
         const destUrl = environment.envUrl + this.url;
         const body = JSON.stringify(item);
-        return this.http.post(destUrl, body);
+        const headers = {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        };
+        //headers.set("Content-Type", "application/json;charset=UTF-8");
+        return this.http.post(destUrl, body, {headers: headers});
     }
 
     put(id: number, item: S) {

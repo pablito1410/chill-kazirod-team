@@ -1,0 +1,22 @@
+
+.row {
+    display: flex;
+    align-items: center;
+}
+
+.row * {
+    justify-content: space-around;
+    text-align: center;
+}
+
+.versus {
+    align-items: center;
+}
+
+.col-xs-4.team-1 > * {
+    text-align: end;
+}
+
+.col-xs-4.team-2 > * {
+    text-align: start;
+}

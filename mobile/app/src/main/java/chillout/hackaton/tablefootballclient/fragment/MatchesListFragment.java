@@ -3,28 +3,21 @@ package chillout.hackaton.tablefootballclient.fragment;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import chillout.hackaton.tablefootballclient.R;
-import chillout.hackaton.tablefootballclient.api.ApiClient;
-import chillout.hackaton.tablefootballclient.api.TableFootballService;
-import chillout.hackaton.tablefootballclient.api.response.BasicUser;
 import chillout.hackaton.tablefootballclient.components.adapter.MatchesRecyclerViewAdapter;
+import chillout.hackaton.tablefootballclient.defs.MatchState;
 import chillout.hackaton.tablefootballclient.model.MatchInfo;
-import retrofit2.Call;
-import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -58,19 +51,18 @@ public class MatchesListFragment extends Fragment {
 
     private void setupRecyclerView() {
 
-        mRecyclerView.setAdapter(new MatchesRecyclerViewAdapter(mockData()));
+        mRecyclerView.setAdapter(new MatchesRecyclerViewAdapter(mockData(),getActivity()));
     }
 
     private List<MatchInfo> mockData(){
         List<MatchInfo> matchInfoList = new ArrayList<>();
-        MatchInfo mockdata = new MatchInfo("buźka",
-                "wojtek",
-                "tomek",
-                "pusty",
-                0,
-                3);
-        for(int i = 0; i < 20; i++) {
-            matchInfoList.add(mockdata);
+        for(long i = 0; i < 20; i++) {
+            matchInfoList.add(new MatchInfo(i, i*10, i*20, "buźka",
+                    "wojtek",
+                    "tomek",
+                    "pusty",
+                    MatchState.ramdomState(), 0,
+                    3));
         }
         return matchInfoList;
     }

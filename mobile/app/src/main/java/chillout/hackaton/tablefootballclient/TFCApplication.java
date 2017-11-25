@@ -10,6 +10,16 @@ import chillout.hackaton.tablefootballclient.api.ApiClient;
 
 public class TFCApplication extends Application {
 
+    private static String TOKEN = "";
+
+    public static String getTOKEN() {
+        return TOKEN;
+    }
+
+    public static void setTOKEN(String TOKEN) {
+        TFCApplication.TOKEN = TOKEN;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
