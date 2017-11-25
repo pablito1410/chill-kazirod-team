@@ -21,7 +21,7 @@ public class TeamFinder {
 
     public TeamProjection findOneOrThrow(Long teamId) {
         return findOne(teamId)
-                .orElseThrow(() -> new TeamNotFoundException("Team with id " + teamId + " not found"));
+                .orElseThrow(() -> new TeamNotFoundException(teamId, null));
     }
 
     public List<TeamProjection> findAll() {
@@ -33,6 +33,6 @@ public class TeamFinder {
     public TeamProjection findByName(String name) {
         return teamFinderRepository.findByName(name)
                 .map(TeamProjectionImpl::new)
-                .orElseThrow(() -> new TeamNotFoundException("Team with name " + name + " not found"));
+                .orElseThrow(() -> new TeamNotFoundException(null, name));
     }
 }

@@ -37,7 +37,7 @@ public class MatchesFinder {
 
     public MatchProjection findOrThrow(Long matchId) {
         return findById(matchId)
-            .orElseThrow(() -> new MatchNotFoundException("match with id = " + matchId + " does not exist"));
+            .orElseThrow(() -> new MatchNotFoundException(matchId));
     }
 
 }

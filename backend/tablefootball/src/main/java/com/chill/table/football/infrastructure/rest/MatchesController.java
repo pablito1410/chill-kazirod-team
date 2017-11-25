@@ -40,7 +40,7 @@ class MatchesController {
 
     @PutMapping("/accept")
     AcceptMatchResponseDTO acceptMatch(@RequestBody @Valid AcceptMatchRequestDTO requestDTO) {
-        return null;    // TOOD obsługa
+        return commandGateway.dispatch(requestDTO);    // TOOD obsługa
     }
 
     @GetMapping("/{matchId}")

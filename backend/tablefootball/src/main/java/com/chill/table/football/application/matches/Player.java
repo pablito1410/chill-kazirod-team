@@ -20,6 +20,10 @@ public class Player {
     @ManyToMany(cascade = CascadeType.ALL)
     private Set<Team> teams = new HashSet<>();
 
+    private Player() {
+        // dla hibernate
+    }
+
     Player(Long userId) {
         this.userId = userId;
     }

@@ -1,8 +1,10 @@
 package com.chill.table.football.application.matches.exception;
 
-public class PlayerNotFoundException extends RuntimeException {
+import lombok.EqualsAndHashCode;
+import lombok.Value;
 
-    public PlayerNotFoundException(String message) {
-        super(message);
-    }
+@Value()
+@EqualsAndHashCode(callSuper = true)
+public class PlayerNotFoundException extends RuntimeException {
+    private final Long playerId;
 }

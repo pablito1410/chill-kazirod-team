@@ -5,7 +5,6 @@ import lombok.Value;
 
 @Value()
 @EqualsAndHashCode(callSuper = true)
-public class MatchDoesNotContainTeam extends RuntimeException {
-    private Long matchId;
-    private Long teamId;
+public class AcceptationNotFoundException extends RuntimeException {
+    private Long acceptationId;
 }

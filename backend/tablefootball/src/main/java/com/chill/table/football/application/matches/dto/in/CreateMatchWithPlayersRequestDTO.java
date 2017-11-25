@@ -29,7 +29,9 @@ public class CreateMatchWithPlayersRequestDTO implements Command<CreateMatchWith
     public static class Team {
         @NotEmpty
         private String name;
-        @NotEmpty
-        private Set<Long> players;
+        @NotNull
+        private Long firstPlayer;
+        @NotNull
+        private Long secondPlayer;
     }
 }

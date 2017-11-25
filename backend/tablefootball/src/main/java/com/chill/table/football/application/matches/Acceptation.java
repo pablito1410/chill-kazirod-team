@@ -27,18 +27,18 @@ public class Acceptation {
         this.state = State.PADDING;
     }
 
-    Acceptation accept() {
+    private Acceptation accept() {
         this.state = State.ACCEPTED;
         return this;
     }
 
-    Acceptation reject() {
+    private Acceptation reject() {
         this.state = State.REJECTED;
         return this;
     }
 
     // TODO jakiś task oznaczający po rozpoczęciu meczu
-    Acceptation markTimedOut() {
+    private Acceptation markTimedOut() {
         this.state = State.TIMED_OUT;
         return this;
     }

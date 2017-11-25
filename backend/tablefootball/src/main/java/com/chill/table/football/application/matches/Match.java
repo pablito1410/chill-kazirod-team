@@ -5,6 +5,7 @@ import com.chill.table.football.application.matches.exception.MatchDoesNotContai
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 public class Match {
@@ -33,6 +34,13 @@ public class Match {
     @OneToOne(cascade = CascadeType.ALL)
     private Team secondTeam;
 
+    @OneToMany(mappedBy = "match", cascade = CascadeType.ALL)
+    private Set<Acceptation> acceptations;
+
+    private Match() {
+        // dla hibernate
+    }
+
     Match(LocalDateTime dateTime, Team firstTeam, Team secondTeam) {
         this.creationDateTime = LocalDateTime.now();
         this.dateTime = dateTime;
@@ -50,11 +58,12 @@ public class Match {
                 .build();
     }
 
-    void end(Team winningTeam) {
+    Match end(Team winningTeam) {
         if (!firstTeam.equals(winningTeam) || !secondTeam.equals(winningTeam)) {
-            throw new MatchDoesNotContainTeam("Match with id = " + id + " does not contain team with id = " + winningTeam.getId());
+            throw new MatchDoesNotContainTeam(id , winningTeam.getId());
         }
         this.endDateTime = LocalDateTime.now();
+        return this;
     }
 
     enum State {

@@ -30,29 +30,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-                .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/*").permitAll()
-                .anyRequest().fullyAuthenticated()
-                .and()
-                .formLogin()
-                .loginProcessingUrl("/login")
-                .failureUrl("/login?error")
-                .usernameParameter("userName")
-                .permitAll()
-                .and()
-                .logout()
-                .logoutUrl("/logout")
-                .deleteCookies("remember-me")
-                .logoutSuccessUrl("/")
-                .permitAll()
-                .and()
-                .rememberMe()
-                .and()
-                .addFilterBefore(new JwtLoginFilter("/login", authenticationManager()),
-                        UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new JwtAuthenticationFilter(userService),
-                        UsernamePasswordAuthenticationFilter.class);
+        http.csrf().disable();
+//                .authorizeRequests()
+//                .antMatchers(HttpMethod.POST, "/*").permitAll()
+//                .anyRequest().fullyAuthenticated()
+//                .and()
+//                .formLogin()
+//                .loginProcessingUrl("/login")
+//                .failureUrl("/login?error")
+//                .usernameParameter("userName")
+//                .permitAll()
+//                .and()
+//                .logout()
+//                .logoutUrl("/logout")
+//                .deleteCookies("remember-me")
+//                .logoutSuccessUrl("/")
+//                .permitAll()
+//                .and()
+//                .rememberMe()
+//                .and()
+//                .addFilterBefore(new JwtLoginFilter("/login", authenticationManager()),
+//                        UsernamePasswordAuthenticationFilter.class)
+//                .addFilterBefore(new JwtAuthenticationFilter(userService),
+//                        UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override
