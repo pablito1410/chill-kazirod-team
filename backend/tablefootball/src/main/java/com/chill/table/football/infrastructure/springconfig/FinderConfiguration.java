@@ -1,5 +1,7 @@
 package com.chill.table.football.infrastructure.springconfig;
 
+import com.chill.table.football.application.query.acceptation.AcceptationFinder;
+import com.chill.table.football.application.query.acceptation.AcceptationFinderRepository;
 import com.chill.table.football.application.query.matches.MatchesFinder;
 import com.chill.table.football.application.query.matches.MatchesFinderRepository;
 import com.chill.table.football.application.query.player.PlayerFinder;
@@ -33,5 +35,10 @@ class FinderConfiguration {
     @Bean
     UserFinder userFinder(final UserFinderDao userFinderDao, final EntityMapper entityMapper) {
         return new UserFinder(userFinderDao, entityMapper);
+    }
+
+    @Bean
+    AcceptationFinder acceptationFinder(AcceptationFinderRepository acceptationFinderRepository) {
+        return new AcceptationFinder(acceptationFinderRepository);
     }
 }
