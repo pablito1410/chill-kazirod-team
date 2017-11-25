@@ -11,21 +11,21 @@ public class BasicUser {
 
     @SerializedName("id")
     @Expose
-    private Integer id;
+    private Long id;
     @SerializedName("userName")
     @Expose
     private String userName;
 
-    public BasicUser(Integer id, String userName) {
+    public BasicUser(Long id, String userName) {
         this.id = id;
         this.userName = userName;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

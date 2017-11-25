@@ -32,4 +32,6 @@
     <string name="match_time">Match time:</string>
     <string name="create_match">Create match</string>
     <string name="action_sign_up">Sing up</string>
+    <string name="to_my_team">To my team</string>
+    <string name="to_opposite_team">To oposite team</string>
 </resources>

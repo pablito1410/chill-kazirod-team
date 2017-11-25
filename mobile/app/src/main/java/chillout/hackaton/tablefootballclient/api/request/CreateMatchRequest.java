@@ -41,20 +41,4 @@ public class CreateMatchRequest {
         return dateTime;
     }
 
-
-    public class Team {
-
-        @SerializedName("players")
-        @Expose
-        private List<Integer> players = null;
-
-        public List<Integer> getPlayers() {
-            return players;
-        }
-
-        public void setPlayers(List<Integer> players) {
-            this.players = players;
-        }
-
-    }
 }
