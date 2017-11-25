@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.module.mrbean.MrBeanModule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
@@ -19,6 +20,7 @@ public class JacksonConfiguration {
         jackson2ObjectMapper.setVisibility(FIELD, JsonAutoDetect.Visibility.ANY);
 
         jackson2ObjectMapper.registerModule(new JavaTimeModule());
+        jackson2ObjectMapper.registerModule(new MrBeanModule());
 
         jackson2ObjectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
         jackson2ObjectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);

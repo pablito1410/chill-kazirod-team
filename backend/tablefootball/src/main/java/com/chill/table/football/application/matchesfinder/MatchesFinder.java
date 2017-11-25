@@ -1,11 +1,18 @@
 package com.chill.table.football.application.matchesfinder;
 
+import com.chill.table.football.application.matches.exception.MatchNotFoundException;
 import com.chill.table.football.application.matchesfinder.projection.MatchDateTimeProjection;
+import com.chill.table.football.application.matchesfinder.projection.MatchProjection;
+import com.chill.table.football.application.matchesfinder.projection.impl.MatchProjectionImpl;
 
+import javax.swing.text.html.Option;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+// Tworzenie objektów "impl" ma na celu obejście problemu ObjectMappera z serializowaniem objektów "Proxy" klas wygenerowanych przez springa
 public class MatchesFinder {
 
     private MatchesFinderRepository matchesFinderRepository;
@@ -16,5 +23,22 @@ public class MatchesFinder {
 
     public Optional<MatchDateTimeProjection> findMatchIn30MinutesBefore(LocalDateTime dateTime) {
         return matchesFinderRepository.findByDateTimeBetween(dateTime.minusMinutes(30), dateTime);
+    }
+
+    public Optional<MatchProjection> findById(Long matchId) {
+        return matchesFinderRepository.findById(matchId)
+                .map(MatchProjectionImpl::new);
+    }
+
+    public List<MatchProjection> findAll() {
+        return matchesFinderRepository.findBy()
+                .stream()
+                .map(MatchProjectionImpl::new)
+                .collect(Collectors.toList());
+    }
+
+    public MatchProjection findOrThrow(Long matchId) {
+        return findById(matchId)
+            .orElseThrow(() -> new MatchNotFoundException("match with id = " + matchId + " does not exist"));
     }
 }

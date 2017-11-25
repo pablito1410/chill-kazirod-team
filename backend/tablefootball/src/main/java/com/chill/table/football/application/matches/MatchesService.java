@@ -32,8 +32,6 @@ public class MatchesService {
         this.matchesFinder = Objects.requireNonNull(matchesFinder);
     }
 
-    // TODO:
-    // nie można dodać rezerwacji do 30 minut od tego co aktualnie jest w bazie
     public CreateMatchResponseDTO createMatch(CreateMatchRequestDTO createMatchRequestDTO) {
         Objects.requireNonNull(createMatchRequestDTO);
         CreateMatchRequestDTO.Team firstTeamDTO = createMatchRequestDTO.getFirstTeam();
