@@ -3,7 +3,7 @@ package com.chill.table.football.infrastructure.springconfig;
 import com.chill.table.football.application.matches.MatchesRepository;
 import com.chill.table.football.application.matches.MatchesService;
 import com.chill.table.football.application.query.matches.MatchesFinder;
-import com.chill.table.football.application.user.UserFinder;
+import com.chill.table.football.application.query.user.UserFinder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

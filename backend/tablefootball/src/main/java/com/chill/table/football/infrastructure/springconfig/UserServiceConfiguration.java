@@ -1,7 +1,8 @@
 package com.chill.table.football.infrastructure.springconfig;
 
+import com.chill.table.football.application.query.user.UserFinderDao;
 import com.chill.table.football.application.user.PasswordEncoder;
-import com.chill.table.football.application.user.UserFinder;
+import com.chill.table.football.application.query.user.UserFinder;
 import com.chill.table.football.application.user.UserService;
 import com.chill.table.football.application.user.UserDao;
 import com.chill.table.football.application.util.EntityMapper;
@@ -36,7 +37,8 @@ public class UserServiceConfiguration {
     }
 
     @Bean
-    public UserFinder userFinder(final UserDao userDao, final EntityMapper entityMapper) {
-        return new UserFinder(userDao, entityMapper);
+    UserFinderDao userFinderDao(final SpringDataUserRepository repository) {
+        return new UserRepository(repository);
     }
+
 }

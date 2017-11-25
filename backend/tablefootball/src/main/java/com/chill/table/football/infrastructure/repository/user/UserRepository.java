@@ -1,12 +1,13 @@
 package com.chill.table.football.infrastructure.repository.user;
 
+import com.chill.table.football.application.query.user.UserFinderDao;
 import com.chill.table.football.application.user.User;
 import com.chill.table.football.application.user.UserDao;
 
 import java.util.List;
 import java.util.Optional;
 
-public class UserRepository implements UserDao {
+public class UserRepository implements UserDao, UserFinderDao {
 
     private final SpringDataUserRepository repository;
 

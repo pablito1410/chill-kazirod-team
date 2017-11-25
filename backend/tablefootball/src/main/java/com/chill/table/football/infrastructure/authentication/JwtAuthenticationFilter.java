@@ -1,6 +1,6 @@
 package com.chill.table.football.infrastructure.authentication;
 
-import com.chill.table.football.application.user.UserFinder;
+import com.chill.table.football.application.query.user.UserFinder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

@@ -1,6 +1,6 @@
 package com.chill.table.football.infrastructure.springconfig;
 
-import com.chill.table.football.application.user.UserFinder;
+import com.chill.table.football.application.query.user.UserFinder;
 import com.chill.table.football.infrastructure.authentication.JwtAuthenticationFilter;
 import com.chill.table.football.infrastructure.authentication.JwtLoginFilter;
 import com.chill.table.football.infrastructure.authentication.UserAuthService;
