@@ -1,0 +1,24 @@
+<div class="login-wrapper">
+	<form [formGroup]="form" class="login" novalidate (submit)="onSubmit();">
+		<label class="title">
+			<h3 class="welcome">Welcome to</h3>
+			Table football system
+			<h5 class="hint">Enter your credentials to sign in</h5>
+		</label>
+		<div class="login-group">
+			<!--<div class="error active">
+				Invalid user name or password
+			</div>-->
+			<input class="username" type="text" formControlName="username" id="login_username" placeholder="Username">
+			<input class="password" type="password" formControlName="password" id="login_password" placeholder="Password">
+			<div class="checkbox">
+				<input type="checkbox" id="rememberme">
+				<label for="rememberme">
+					Remember me  <!--TODO: cache in app cache-->
+				</label>
+			</div>
+			<button type="submit" class="btn btn-primary">LOGIN</button>
+			<a [routerLink]="['/register']" class="signup">Sign up here!</a>
+		</div>
+	</form>
+</div>

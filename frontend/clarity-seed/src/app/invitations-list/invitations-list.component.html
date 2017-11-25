@@ -1,0 +1,27 @@
+<clr-datagrid>
+	<clr-dg-column>Id</clr-dg-column>
+	<clr-dg-column>Date</clr-dg-column>
+	<clr-dg-column>First team</clr-dg-column>
+	<clr-dg-column>Second team</clr-dg-column>
+	<clr-dg-row *clrDgItems="let invitation of invitations" [clrDgItem]="invitation">
+		<clr-dg-action-overflow>
+			<button class="action-item" (click)="onAccept(invitation)">Accept</button>
+			<button class="action-item" (click)="onReject(invitation)">Reject</button>
+		</clr-dg-action-overflow>
+		<clr-dg-cell>{{invitation.id}}</clr-dg-cell>
+		<clr-dg-cell>{{invitation.game.date}}</clr-dg-cell>
+		<clr-dg-cell>{{invitation.game.firstTeam.users}}</clr-dg-cell>
+		<clr-dg-cell>{{invitation.game.secondTeam.users }}</clr-dg-cell>
+	</clr-dg-row>
+</clr-datagrid>
+<clr-datagrid>
+
+	<clr-dg-row *clrDgItems="let user of users" [clrDgItem]="user">
+		<clr-dg-action-overflow>
+			<button class="action-item" (click)="onEdit(user)">Edit</button>
+			<button class="action-item" (click)="onDelete(user)">Delete</button>
+		</clr-dg-action-overflow>
+
+	</clr-dg-row>
+
+</clr-datagrid>
