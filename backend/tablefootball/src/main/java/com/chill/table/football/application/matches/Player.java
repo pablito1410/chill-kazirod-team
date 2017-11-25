@@ -33,9 +33,4 @@ public class Player {
         return this;
     }
 
-    Player invite(Match match) {
-        acceptations.add(new Acceptation(this, match));
-        return this;
-    }
-
 }

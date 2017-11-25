@@ -5,6 +5,7 @@ import com.chill.table.football.application.matches.exception.MatchDoesNotContai
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -26,16 +27,21 @@ public class Match {
     @Column(nullable = false)
     private State state;
 
-    @JoinColumn(name = "HOME")
     @OneToOne(cascade = CascadeType.ALL)
     private Team firstTeam;
 
-    @JoinColumn(name = "GUESTS")
     @OneToOne(cascade = CascadeType.ALL)
     private Team secondTeam;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private Team winner;
+
+    private Integer winnerScore;
+
+    private Integer loserScore;
+
     @OneToMany(mappedBy = "match", cascade = CascadeType.ALL)
-    private Set<Acceptation> acceptations;
+    private Set<Acceptation> acceptations = new HashSet<>();
 
     private Match() {
         // dla hibernate
@@ -58,15 +64,23 @@ public class Match {
                 .build();
     }
 
-    Match end(Team winningTeam) {
+    Match end(Team winningTeam, Integer winnerScore, Integer loserScore, LocalDateTime endDateTime) {
         if (!firstTeam.equals(winningTeam) || !secondTeam.equals(winningTeam)) {
             throw new MatchDoesNotContainTeam(id , winningTeam.getId());
         }
-        this.endDateTime = LocalDateTime.now();
+        this.state = State.FINISHED;
+        this.winner = winningTeam;
+        this.winnerScore = winnerScore;
+        this.loserScore = loserScore;
+        this.endDateTime = endDateTime;
+        return this;
+    }
+
+    Match accept(Acceptation acceptation) {
         return this;
     }
 
     enum State {
-        CREATED, ACCEPTED, STARTED, ENDED;
+        CREATED, ACCEPTED, CANCELED, FINISHED;
     }
 }

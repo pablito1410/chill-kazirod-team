@@ -88,7 +88,7 @@ public class MatchesService {
         Match match = matchesRepository.findByIdOrThrow(endMatchRequestDTO.getMatchId());
         Team team = teamRepository.findByIdOrThrow(endMatchRequestDTO.getTeamId());
 
-        match.end(team);
+        match.end(team, endMatchRequestDTO.getWinnerScore(), endMatchRequestDTO.getLoserScore(), endMatchRequestDTO.getEndDateTime());
 
         return EndMatchResponseDTO.builder().build();
     }
@@ -96,7 +96,7 @@ public class MatchesService {
     public AcceptMatchResponseDTO acceptMatch(AcceptMatchRequestDTO acceptMatchRequestDTO) {
         Match match = matchesRepository.findByIdOrThrow(acceptMatchRequestDTO.getMatchId());
         Acceptation acceptation = acceptationRepository.findByIdOrThrow(acceptMatchRequestDTO.getAcceptationId());
-//        match.accept(acceptation);
+        match.accept(acceptation);
         return new AcceptMatchResponseDTO();
     }
 }

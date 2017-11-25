@@ -10,5 +10,7 @@ import java.time.LocalDateTime;
 public class EndMatchRequestDTO implements Command<EndMatchResponseDTO> {
     private Long matchId;
     private Long teamId;
+    private Integer winnerScore;
+    private Integer loserScore;
     private LocalDateTime endDateTime;
 }

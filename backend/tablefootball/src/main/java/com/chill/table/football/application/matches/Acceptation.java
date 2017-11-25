@@ -3,8 +3,6 @@ package com.chill.table.football.application.matches;
 
 import javax.persistence.*;
 
-// TODO jakieś daty?
-// TODO przymyśleć jeszcze raz czy tak to ma działać
 @Entity
 public class Acceptation {
 
@@ -27,18 +25,18 @@ public class Acceptation {
         this.state = State.PADDING;
     }
 
-    private Acceptation accept() {
+    Acceptation accept() {
         this.state = State.ACCEPTED;
         return this;
     }
 
-    private Acceptation reject() {
+    Acceptation reject() {
         this.state = State.REJECTED;
         return this;
     }
 
     // TODO jakiś task oznaczający po rozpoczęciu meczu
-    private Acceptation markTimedOut() {
+    Acceptation markTimedOut() {
         this.state = State.TIMED_OUT;
         return this;
     }
