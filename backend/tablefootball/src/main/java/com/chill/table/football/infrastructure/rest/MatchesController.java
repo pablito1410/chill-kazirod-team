@@ -21,7 +21,7 @@ class MatchesController {
     private CommandGateway commandGateway;
     private MatchesFinder matchesFinder;
 
-    public MatchesController(CommandGateway commandGateway, MatchesFinder matchesFinder) {
+    MatchesController(CommandGateway commandGateway, MatchesFinder matchesFinder) {
         this.commandGateway = Objects.requireNonNull(commandGateway);
         this.matchesFinder = Objects.requireNonNull(matchesFinder);
     }
@@ -36,7 +36,7 @@ class MatchesController {
         return commandGateway.dispatch(requestDTO);
     }
 
-    @GetMapping(path = "/{matchId}")
+    @GetMapping("/{matchId}")
     MatchProjection getOne(@PathParam("matchId") Long matchId) {
         return matchesFinder.findOrThrow(matchId);
     }

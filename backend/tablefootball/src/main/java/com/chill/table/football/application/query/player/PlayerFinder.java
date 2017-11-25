@@ -3,9 +3,9 @@ package com.chill.table.football.application.query.player;
 import java.util.Objects;
 
 public class PlayerFinder {
-    private final PlayerRepository playerRepository;
+    private final PlayerFinderRepository playerFinderRepository;
 
-    public PlayerFinder(PlayerRepository playerRepository) {
-        this.playerRepository = Objects.requireNonNull(playerRepository);
+    public PlayerFinder(PlayerFinderRepository playerFinderRepository) {
+        this.playerFinderRepository = Objects.requireNonNull(playerFinderRepository);
     }
 }

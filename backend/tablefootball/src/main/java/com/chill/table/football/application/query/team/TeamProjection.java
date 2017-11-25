@@ -6,5 +6,6 @@ import java.util.Set;
 
 public interface TeamProjection {
     Long getId();
+    String getName();
     Set<PlayerProjection> getPlayers();
 }
