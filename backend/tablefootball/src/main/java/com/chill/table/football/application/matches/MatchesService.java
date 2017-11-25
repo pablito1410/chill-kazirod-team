@@ -62,14 +62,14 @@ public class MatchesService {
 
     private Team createTeamFromDTO(CreateMatchRequestDTO.Team teamDTO) {
         Team team = new Team();
-        teamDTO.getPlayers().forEach(p -> team.appendPlayer(getOrCreatePlayer(p)));
+        teamDTO.getPlayers().forEach(p -> team.appendPlayer(getOrCreatePlayer(p, team)));
         return team;
     }
 
-    private Player getOrCreatePlayer(Long playerId) {
+    private Player getOrCreatePlayer(Long playerId, Team team) {
         UserDTO user = userFinder.getUser(playerId);
         Optional<Player> player = playerRepository.findById(playerId);
-        return player.orElse(new Player(user.getId()));
+        return player.orElse(new Player(user.getId())).appendTeam(team);
     }
 
     public EndMatchResponseDTO endMatch(EndMatchRequestDTO endMatchRequestDTO) {

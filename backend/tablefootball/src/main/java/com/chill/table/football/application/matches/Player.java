@@ -13,6 +13,7 @@ public class Player {
     @GeneratedValue
     private Long id;
 
+    @Column(nullable = false)
     private Long userId;
 
     @ManyToMany(cascade = CascadeType.ALL)
