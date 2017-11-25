@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="chillout.hackaton.tablefootballclient.fragment.CreateMatchFragment">
+
+    <ProgressBar
+        android:id="@+id/progressbar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/fragment_content"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent" android:layout_height="100dp">
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:orientation="vertical"
+            android:layout_marginStart="40dp">
+
+        <TextView
+            android:id="@+id/player1name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:text="Player1"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/player2name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Player2"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/vs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="VS"
+            android:textSize="25sp"
+            android:textColor="@android:color/black"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/player3name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="40dp"
+            android:textColor="@android:color/black"
+            android:text="Player3"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/player4name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Player4"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+    <TextView
+        android:layout_marginTop="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/match_time"
+        android:textColor="@android:color/black"
+        android:textSize="25sp"
+        android:layout_gravity="center_horizontal" />
+
+
+    <Button
+        android:id="@+id/timeEditText"
+        android:focusable="false"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="00:00"
+        android:textSize="25sp"
+        android:layout_gravity="center_horizontal"/>
+
+    <Button
+        android:layout_marginTop="20dp"
+        android:id="@+id/createMatchButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/create_match"
+        android:layout_gravity="center_horizontal"
+        />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/matches_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+        tools:listitem="@layout/row_select_player"/>
+    </LinearLayout>
+</RelativeLayout>

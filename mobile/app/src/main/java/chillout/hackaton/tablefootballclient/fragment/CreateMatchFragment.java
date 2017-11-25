@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import org.joda.time.DateTime;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import chillout.hackaton.tablefootballclient.R;
@@ -27,6 +29,8 @@ import chillout.hackaton.tablefootballclient.activity.MainActivity;
 import chillout.hackaton.tablefootballclient.api.ApiClient;
 import chillout.hackaton.tablefootballclient.api.TableFootballService;
 import chillout.hackaton.tablefootballclient.api.response.BasicUser;
+import chillout.hackaton.tablefootballclient.components.adapter.MatchesRecyclerViewAdapter;
+import chillout.hackaton.tablefootballclient.components.adapter.PlayerRecyclerViewAdapter;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -43,12 +47,17 @@ public class CreateMatchFragment extends Fragment {
 
     private Button timeButton;
 
+    private RecyclerView mRecyclerView;
+    private PlayerRecyclerViewAdapter mRvAdapter;
+
     private ProgressBar mProgressBar;
     private View mContentView;
 
     private GetUsersToPlayAsyncTask mGetUsersTask = null;
 
     List<BasicUser> usersToChoose = new ArrayList<>();
+
+    //HashMap<Integer,BasicUser> playersHashMap = new HashMap<>();
 
     public CreateMatchFragment() {
         // Required empty public constructor
@@ -60,15 +69,28 @@ public class CreateMatchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        mFragmentView = inflater.inflate(R.layout.fragment_create_match, container, false);
+        mFragmentView = inflater.inflate(R.layout.fragment_create_match2, container, false);
         timeButton = (Button)  mFragmentView.findViewById(R.id.timeEditText);
 
         mContentView = (LinearLayout) mFragmentView.findViewById(R.id.fragment_content);
         mProgressBar = (ProgressBar) mFragmentView.findViewById(R.id.progressbar);
+        mRecyclerView = (RecyclerView) mFragmentView.findViewById(R.id.matches_list);
+        setupRecyclerView();
         setupTimeButton();
-        getUsers();
+
+        //TODO odkomentowac kiedy service bedzie
+        //getUsers();
+        mockUsers();
+
+
         return mFragmentView;
     }
+
+    private void setupRecyclerView() {
+        mRvAdapter = new PlayerRecyclerViewAdapter(usersToChoose);
+        mRecyclerView.setAdapter(mRvAdapter);
+    }
+
 
     private void setupTimeButton() {
         timeButton.setText(matchTime.toString("hh:mm"));
@@ -107,6 +129,25 @@ public class CreateMatchFragment extends Fragment {
         mGetUsersTask = new GetUsersToPlayAsyncTask();
         mGetUsersTask.execute(((Void) null));
     }
+
+
+    private void mockUsers() {
+        showProgress(true);
+        for(int i = 0; i < 10; i++) {
+            usersToChoose.add(new BasicUser(i, "user" + i));
+        }
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        mRvAdapter.setBasicUserList(usersToChoose);
+        showProgress(false);
+    }
+
+
+
+
 
 
     private void showProgress(final boolean show) {

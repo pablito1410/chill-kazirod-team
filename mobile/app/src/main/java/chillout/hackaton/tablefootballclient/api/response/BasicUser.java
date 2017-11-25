@@ -16,6 +16,11 @@ public class BasicUser {
     @Expose
     private String userName;
 
+    public BasicUser(Integer id, String userName) {
+        this.id = id;
+        this.userName = userName;
+    }
+
     public Integer getId() {
         return id;
     }

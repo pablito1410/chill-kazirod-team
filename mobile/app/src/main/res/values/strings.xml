@@ -31,4 +31,5 @@
     <string name="choose_players">Choose players</string>
     <string name="match_time">Match time:</string>
     <string name="create_match">Create match</string>
+    <string name="action_sign_up">Sing up</string>
 </resources>

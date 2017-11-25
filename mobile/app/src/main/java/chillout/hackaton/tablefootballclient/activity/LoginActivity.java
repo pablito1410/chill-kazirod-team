@@ -21,8 +21,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 
-import chillout.hackaton.tablefootballclient.R;
+import java.io.IOException;
+import java.util.List;
 
+import chillout.hackaton.tablefootballclient.R;
+import chillout.hackaton.tablefootballclient.api.ApiClient;
+import chillout.hackaton.tablefootballclient.api.TableFootballService;
+import chillout.hackaton.tablefootballclient.api.request.LoginUserRequest;
+import chillout.hackaton.tablefootballclient.api.request.RegisterUserRequest;
+import chillout.hackaton.tablefootballclient.api.response.BasicUser;
+import retrofit2.Call;
+import retrofit2.Response;
 
 
 public class LoginActivity extends AppCompatActivity{
@@ -31,9 +40,11 @@ public class LoginActivity extends AppCompatActivity{
     private EditText mPasswordView;
     private View mProgressView;
 
-    private UserLoginTask mAuthTask = null;
+    private LoginOrRegisterUserAsyncTask mAuthTask = null;
 
     private View mLoginFormView;
+
+    private Boolean isRegister = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +69,16 @@ public class LoginActivity extends AppCompatActivity{
         mSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                isRegister = false;
+                attemptLogin();
+            }
+        });
+
+        Button mSignUpButton = (Button) findViewById(R.id.sign_up_button);
+        mSignUpButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isRegister = true;
                 attemptLogin();
             }
         });
@@ -97,7 +118,7 @@ public class LoginActivity extends AppCompatActivity{
             focusView.requestFocus();
         } else {
             showProgress(true);
-            mAuthTask = new UserLoginTask(nickname, password);
+            mAuthTask = new LoginOrRegisterUserAsyncTask(nickname, password);
             mAuthTask.execute((Void) null);
         }
     }
@@ -129,26 +150,50 @@ public class LoginActivity extends AppCompatActivity{
     }
 
 
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    public class LoginOrRegisterUserAsyncTask extends AsyncTask<Void, Void, Boolean> {
 
        private final String mNickname;
        private final String mPassword;
 
-        UserLoginTask(String nickname, String password) {
-            mNickname = nickname;
-            mPassword = password;
+        LoginOrRegisterUserAsyncTask(String nickname, String password) {
+            this.mNickname = nickname;
+            this.mPassword = password;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
 
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                return false;
-            }
-            return true;
+            TableFootballService apiService = ApiClient.instance();
+                Call<Void> call;
+                if (isRegister) {
+                    RegisterUserRequest request = new RegisterUserRequest(mNickname,mPassword);
+                    call = apiService.registerUser(request);
+
+                } else {
+                    LoginUserRequest request = new LoginUserRequest(mNickname,mPassword);
+                    call = apiService.loginUser(request);
+                }
+
+                //TODO response
+            Response<Void> response = null;
+            //try {
+                return true;
+                //response = call.execute();
+//                if(response.isSuccessful()){
+//                    return true;
+//                }
+
+            //} catch (IOException e) {
+           //     e.printStackTrace();
+           // }
+            //return false;
+
+//            try {
+//                Thread.sleep(1000);
+//            } catch (InterruptedException e) {
+//                return false;
+//            }
+//            return true;
         }
 
         @Override
