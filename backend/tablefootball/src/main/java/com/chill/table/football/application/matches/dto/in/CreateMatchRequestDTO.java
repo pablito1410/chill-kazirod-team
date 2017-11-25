@@ -28,6 +28,6 @@ public class CreateMatchRequestDTO implements Command<CreateMatchResponseDTO> {
     @Value
     public static class Team {
         @NotEmpty
-        private Set<Long> players;    // TODO rename players
+        private Set<Long> players;
     }
 }

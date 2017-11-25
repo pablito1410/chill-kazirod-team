@@ -4,7 +4,7 @@ import com.chill.table.football.application.matches.MatchesRepository;
 import com.chill.table.football.application.matches.MatchesService;
 import com.chill.table.football.application.matches.PlayerRepository;
 import com.chill.table.football.application.matches.TeamRepository;
-import com.chill.table.football.application.matchesfinder.MatchesFinder;
+import com.chill.table.football.application.query.matches.MatchesFinder;
 import com.chill.table.football.application.user.UserFinder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

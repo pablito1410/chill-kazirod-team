@@ -1,11 +1,7 @@
-package com.chill.table.football.application.matchesfinder;
+package com.chill.table.football.application.query.matches;
 
 import com.chill.table.football.application.matches.exception.MatchNotFoundException;
-import com.chill.table.football.application.matchesfinder.projection.MatchDateTimeProjection;
-import com.chill.table.football.application.matchesfinder.projection.MatchProjection;
-import com.chill.table.football.application.matchesfinder.projection.impl.MatchProjectionImpl;
 
-import javax.swing.text.html.Option;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -22,7 +18,8 @@ public class MatchesFinder {
     }
 
     public Optional<MatchDateTimeProjection> findMatchIn30MinutesBefore(LocalDateTime dateTime) {
-        return matchesFinderRepository.findByDateTimeBetween(dateTime.minusMinutes(30), dateTime);
+        return matchesFinderRepository.findByDateTimeBetween(dateTime.minusMinutes(30), dateTime)
+                .map(MatchDateTimeProjectionImpl::new);
     }
 
     public Optional<MatchProjection> findById(Long matchId) {

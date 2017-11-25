@@ -1,7 +1,7 @@
 package com.chill.table.football.infrastructure.springconfig;
 
-import com.chill.table.football.application.matchesfinder.MatchesFinder;
-import com.chill.table.football.application.matchesfinder.MatchesFinderRepository;
+import com.chill.table.football.application.query.matches.MatchesFinder;
+import com.chill.table.football.application.query.matches.MatchesFinderRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
