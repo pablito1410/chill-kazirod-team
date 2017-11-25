@@ -12,8 +12,6 @@ public class AcceptationFinder {
     }
 
     public List<AcceptationProjection> findById(Long playerId) {
-        return acceptationFinderRepository.findByPlayerId(playerId).stream()
-                .map(AcceptationProjectionImpl::new)
-                .collect(Collectors.toList());
+        return acceptationFinderRepository.findByPlayerId(playerId);
     }
 }
