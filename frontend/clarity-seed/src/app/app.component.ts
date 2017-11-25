@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import {LoggedUserService} from './services/logged-user.service';
 
 @Component({
     selector: 'my-app',
@@ -7,6 +8,9 @@ import { Router } from '@angular/router';
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+
+    userLoggedIn: boolean;
+
     constructor(private router: Router) {
     }
 }
