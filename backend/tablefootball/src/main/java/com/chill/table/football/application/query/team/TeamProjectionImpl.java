@@ -1,6 +1,7 @@
 package com.chill.table.football.application.query.team;
 
 import com.chill.table.football.application.query.player.PlayerProjection;
+import com.chill.table.football.application.query.player.PlayerProjectionImpl;
 import lombok.Value;
 
 
@@ -14,7 +15,7 @@ public class TeamProjectionImpl implements TeamProjection {
     public TeamProjectionImpl(TeamProjection teamProjection) {
         this.id = teamProjection.getId();
         this.name = teamProjection.getName();
-        this.firstPlayer = teamProjection.getFirstPlayer();
-        this.secondPlayer = teamProjection.getSecondPlayer();
+        this.firstPlayer = new PlayerProjectionImpl(teamProjection.getFirstPlayer());
+        this.secondPlayer = new PlayerProjectionImpl(teamProjection.getSecondPlayer());
     }
 }

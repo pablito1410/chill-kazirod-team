@@ -24,7 +24,7 @@ public class UserService {
 
         final String rawPassword = command.getPassword();
         final String hash = passwordEncoder.encode(rawPassword);
-        final User user = new User(command.getUserName(), hash);
+        final User user = new User(command.getUserName(), hash, command.getFirstName(), command.getLastName());
         userDao.save(user);
         return user.getId();
     }

@@ -5,8 +5,6 @@ import com.google.gson.annotations.SerializedName;
 
 import org.joda.time.DateTime;
 
-import java.util.List;
-
 /**
  * Created by matlo on 25.11.2017.
  */
@@ -41,20 +39,42 @@ public class CreateMatchRequest {
         return dateTime;
     }
 
+    /**
+     * Created by matlo on 25.11.2017.
+     */
 
-    public class Team {
+    public static class Team {
 
-        @SerializedName("players")
+        @SerializedName("name")
         @Expose
-        private List<Integer> players = null;
+        private String name;
 
-        public List<Integer> getPlayers() {
-            return players;
+
+        @SerializedName("firstPlayer")
+        @Expose
+        private Long firstPlayerId;
+
+
+        @SerializedName("secondPlayer")
+        @Expose
+        private Long secondPlayerId;
+
+        public Team(String name, Long firstPlayerId, Long secondPlayerId) {
+            this.name = name;
+            this.firstPlayerId = firstPlayerId;
+            this.secondPlayerId = secondPlayerId;
         }
 
-        public void setPlayers(List<Integer> players) {
-            this.players = players;
+        public String getName() {
+            return name;
         }
 
+        public Long getFirstPlayerId() {
+            return firstPlayerId;
+        }
+
+        public Long getSecondPlayerId() {
+            return secondPlayerId;
+        }
     }
 }

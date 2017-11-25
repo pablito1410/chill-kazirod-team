@@ -12,7 +12,10 @@ import com.chill.table.football.application.matches.exception.MatchExistsWithToo
 import com.chill.table.football.application.matches.exception.TeamNameAlreadyExistException;
 import com.chill.table.football.application.query.matches.MatchesFinder;
 import com.chill.table.football.application.query.user.UserFinder;
+import com.chill.table.football.application.user.User;
+import com.chill.table.football.application.user.UserDao;
 import com.chill.table.football.application.user.ports.outgoing.UserDTO;
+import com.chill.table.football.infrastructure.repository.user.UserRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
@@ -27,17 +30,17 @@ public class MatchesService {
     private MatchesRepository.AcceptationRepository acceptationRepository;
 
     private MatchesFinder matchesFinder;
-    private UserFinder userFinder;
+    private UserDao userDao;
 
     public MatchesService(MatchesRepository matchesRepository, MatchesRepository.TeamRepository teamRepository,
                           MatchesRepository.PlayerRepository playerRepository, MatchesFinder matchesFinder,
-                          UserFinder userFinder) {
+                          UserDao userDao) {
         this.matchesRepository = Objects.requireNonNull(matchesRepository);
         this.teamRepository = Objects.requireNonNull(teamRepository);
         this.playerRepository = Objects.requireNonNull(playerRepository);
 
         this.matchesFinder = Objects.requireNonNull(matchesFinder);
-        this.userFinder = Objects.requireNonNull(userFinder);
+        this.userDao = Objects.requireNonNull(userDao);
     }
 
     public CreateMatchWithPlayersResponseDTO createMatchWithPlayers(CreateMatchWithPlayersRequestDTO createMatchWithPlayersRequestDTO) {
@@ -71,17 +74,13 @@ public class MatchesService {
         Player firstPlayer = getOrCreatePlayer(teamDTO.getFirstPlayer());
         Player secondPlayer = getOrCreatePlayer(teamDTO.getSecondPlayer());
         Team team = new Team(teamDTO.getName(), firstPlayer, secondPlayer);
-        firstPlayer.appendTeam(team);
-        secondPlayer.appendTeam(team);
         return team;
     }
 
-    // TODO odkomentować
     private Player getOrCreatePlayer(Long playerId) {
-//        UserDTO user = userFinder.getUser(playerId);
+        User user = userDao.getUser(playerId).get();
         return playerRepository.findById(playerId)
-//                .orElse(new Player(user.getId()));
-                    .orElse(new Player(playerId));
+                .orElse(new Player(user));
     }
 
     public EndMatchResponseDTO endMatch(EndMatchRequestDTO endMatchRequestDTO) {

@@ -17,6 +17,7 @@ import org.joda.time.format.ISODateTimeFormat;
 import java.lang.reflect.Type;
 import java.util.Objects;
 
+import chillout.hackaton.tablefootballclient.defs.MatchState;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -26,7 +27,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
 
-    private static String SERVER_URL = "http://10.5.0.48:8080";
+    private static String SERVER_URL = "http://10.5.0.41:8080/";
 
     private static Retrofit retrofit;
 
@@ -35,6 +36,7 @@ public class ApiClient {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(DateTime.class, new DateTimeSerializer())
                 .registerTypeAdapter(DateTime.class, new DateTimeDeserializer())
+                .registerTypeAdapter(MatchState.class,new MatchStateDeserializer())
                 .create();
 
 
@@ -54,7 +56,7 @@ public class ApiClient {
         @Override
         public DateTime deserialize(final JsonElement json, final Type type,
                                     final JsonDeserializationContext jdc) throws JsonParseException {
-            return ISODateTimeFormat.dateTime().parseDateTime(json.getAsString());
+            return ISODateTimeFormat.dateHourMinuteSecond().parseDateTime(json.getAsString());
         }
     }
 
@@ -64,7 +66,15 @@ public class ApiClient {
         public JsonElement serialize(final DateTime src, final Type typeOfSrc,
                                      final JsonSerializationContext context)
         {
-            return new JsonPrimitive(ISODateTimeFormat.dateTime().print(src));
+            return new JsonPrimitive(ISODateTimeFormat.dateHourMinuteSecond().print(src));
+        }
+    }
+
+    private static class MatchStateDeserializer implements JsonDeserializer<MatchState> {
+
+        @Override
+        public MatchState deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+            return MatchState.valueOf(json.toString());
         }
     }
 

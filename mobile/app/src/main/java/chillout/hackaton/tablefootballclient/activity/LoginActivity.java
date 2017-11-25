@@ -25,11 +25,13 @@ import java.io.IOException;
 import java.util.List;
 
 import chillout.hackaton.tablefootballclient.R;
+import chillout.hackaton.tablefootballclient.TFCApplication;
 import chillout.hackaton.tablefootballclient.api.ApiClient;
 import chillout.hackaton.tablefootballclient.api.TableFootballService;
 import chillout.hackaton.tablefootballclient.api.request.LoginUserRequest;
 import chillout.hackaton.tablefootballclient.api.request.RegisterUserRequest;
 import chillout.hackaton.tablefootballclient.api.response.BasicUser;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -164,7 +166,7 @@ public class LoginActivity extends AppCompatActivity{
         protected Boolean doInBackground(Void... params) {
 
             TableFootballService apiService = ApiClient.instance();
-                Call<Void> call;
+                Call<ResponseBody> call;
                 if (isRegister) {
                     RegisterUserRequest request = new RegisterUserRequest(mNickname,mPassword);
                     call = apiService.registerUser(request);
@@ -174,19 +176,18 @@ public class LoginActivity extends AppCompatActivity{
                     call = apiService.loginUser(request);
                 }
 
-                //TODO response
-            Response<Void> response = null;
-            //try {
-                return true;
-                //response = call.execute();
-//                if(response.isSuccessful()){
-//                    return true;
-//                }
+            Response<ResponseBody> response = null;
+            try {
+                response = call.execute();
+                if(response.isSuccessful()){
+                    TFCApplication.setTOKEN(response.headers().get("Authorization"));
+                    return true;
+                }
 
-            //} catch (IOException e) {
-           //     e.printStackTrace();
-           // }
-            //return false;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return false;
 
 //            try {
 //                Thread.sleep(1000);
