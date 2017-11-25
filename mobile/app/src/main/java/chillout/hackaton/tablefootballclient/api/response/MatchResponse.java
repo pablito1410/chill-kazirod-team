@@ -6,5 +6,5 @@ package chillout.hackaton.tablefootballclient.api.response;
 
 public class MatchResponse extends BasicId {
 
-
+        
 }
