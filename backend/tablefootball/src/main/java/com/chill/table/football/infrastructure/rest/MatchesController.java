@@ -1,7 +1,9 @@
 package com.chill.table.football.infrastructure.rest;
 
+import com.chill.table.football.application.matches.dto.in.AcceptMatchRequestDTO;
 import com.chill.table.football.application.matches.dto.in.CreateMatchWithPlayersRequestDTO;
 import com.chill.table.football.application.matches.dto.in.EndMatchRequestDTO;
+import com.chill.table.football.application.matches.dto.out.AcceptMatchResponseDTO;
 import com.chill.table.football.application.matches.dto.out.CreateMatchWithPlayersResponseDTO;
 import com.chill.table.football.application.matches.dto.out.EndMatchResponseDTO;
 import com.chill.table.football.application.query.matches.MatchesFinder;
@@ -34,6 +36,11 @@ class MatchesController {
     @PutMapping("/end-match")
     EndMatchResponseDTO endMatch(@RequestBody @Valid EndMatchRequestDTO requestDTO) {
         return commandGateway.dispatch(requestDTO);
+    }
+
+    @PutMapping("/accept")
+    AcceptMatchResponseDTO acceptMatch(@RequestBody @Valid AcceptMatchRequestDTO requestDTO) {
+        return null;    // TOOD obsługa
     }
 
     @GetMapping("/{matchId}")

@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Objects;
 
 @RestController
-@RequestMapping("team")
+@RequestMapping("api/team")
 public class TeamController {
 
     private TeamFinder teamFinder;
