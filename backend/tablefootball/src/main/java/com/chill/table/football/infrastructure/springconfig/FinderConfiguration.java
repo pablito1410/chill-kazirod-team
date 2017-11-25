@@ -6,6 +6,8 @@ import com.chill.table.football.application.query.matches.MatchesFinder;
 import com.chill.table.football.application.query.matches.MatchesFinderRepository;
 import com.chill.table.football.application.query.player.PlayerFinder;
 import com.chill.table.football.application.query.player.PlayerFinderRepository;
+import com.chill.table.football.application.query.statistics.StatisticsDao;
+import com.chill.table.football.application.query.statistics.StatisticsFinder;
 import com.chill.table.football.application.query.team.TeamFinder;
 import com.chill.table.football.application.query.team.TeamFinderRepository;
 import com.chill.table.football.application.query.user.UserFinder;
@@ -41,6 +43,11 @@ class FinderConfiguration {
     @Bean
     AcceptationFinder acceptationFinder(AcceptationFinderRepository acceptationFinderRepository) {
         return new AcceptationFinder(acceptationFinderRepository);
+    }
+
+    @Bean
+    StatisticsFinder statisticsFinder(final StatisticsDao statisticsDao) {
+        return new StatisticsFinder(statisticsDao);
     }
 
     @Bean

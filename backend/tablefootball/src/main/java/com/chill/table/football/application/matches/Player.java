@@ -28,6 +28,10 @@ public class Player {
         this.userId = userId;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     Player appendTeam(Team team) {
         teams.add(team);
         return this;
