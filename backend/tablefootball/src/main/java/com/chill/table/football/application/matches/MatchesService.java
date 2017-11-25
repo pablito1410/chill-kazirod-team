@@ -67,9 +67,9 @@ public class MatchesService {
     }
 
     private Player getOrCreatePlayer(Long playerId) {
-        userFinder.getUser(playerId);   // rzuci wyjątek gdy nie ma usera
+        UserDTO user = userFinder.getUser(playerId);
         Optional<Player> player = playerRepository.findById(playerId);
-        return player.orElse(new Player());
+        return player.orElse(new Player(user.getId()));
     }
 
     public EndMatchResponseDTO endMatch(EndMatchRequestDTO endMatchRequestDTO) {
