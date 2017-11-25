@@ -6,4 +6,6 @@ import lombok.Value;
 
 @Value
 public class AcceptMatchRequestDTO implements Command<AcceptMatchResponseDTO> {
+    private Long playerId;
+    private Long matchId;
 }
