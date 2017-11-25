@@ -1,8 +1,8 @@
 package chillout.hackaton.tablefootballclient.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -18,7 +18,9 @@ import android.view.MenuItem;
 
 import chillout.hackaton.tablefootballclient.R;
 import chillout.hackaton.tablefootballclient.fragment.CreateMatchFragment;
+import chillout.hackaton.tablefootballclient.fragment.InvitationFragment;
 import chillout.hackaton.tablefootballclient.fragment.MatchesListFragment;
+import chillout.hackaton.tablefootballclient.fragment.NoInvitationFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -40,7 +42,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 Fragment fragment = new CreateMatchFragment();
-                moveToFragment(fragment);
+                moveToFragment(fragment,false);
 //                Snackbar.make(view, "Open Create match", Snackbar.LENGTH_LONG)
 //                       .show();
             }
@@ -54,13 +56,26 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        initFragments();
     }
 
-    private void moveToFragment(Fragment fragment) {
+    private void initFragments() {
+        Fragment noInvit = new NoInvitationFragment();
+        moveToFragment(noInvit,true);
+
+        Fragment invitation = new InvitationFragment();
+        moveToFragment(invitation,false);
+
+
+    }
+
+    private void moveToFragment(Fragment fragment, Boolean isFirstFragnent) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.main_content, fragment);
-        fragmentTransaction.addToBackStack(null);
+        if(!isFirstFragnent){
+            fragmentTransaction.addToBackStack(null);
+        }
         fragmentTransaction.commit();
     }
 
@@ -74,12 +89,12 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.main, menu);
+//        return true;
+//    }
 
 //    @Override
 //    public boolean onPrepareOptionsMenu(Menu menu) {
@@ -89,17 +104,17 @@ public class MainActivity extends AppCompatActivity
 //        return true;
 //    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//
+//        int id = item.getItemId();
+//
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
+//
+//        return super.onOptionsItemSelected(item);
+//    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -110,13 +125,14 @@ public class MainActivity extends AppCompatActivity
         //TODO
         if (id == R.id.nav_matches) {
             Fragment fragment = new MatchesListFragment();
-            moveToFragment(fragment);
-        } else if (id == R.id.nav_statistics) {
-
-        } else if (id == R.id.nav_manage_account) {
+            moveToFragment(fragment, false);
+        } else if (id == R.id.nav_invitations) {
+        //TODO cos tam pobranie zaproszen
+//        } else if (id == R.id.nav_manage_account) {
 
         } else if (id == R.id.nav_logout) {
-
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -128,4 +144,54 @@ public class MainActivity extends AppCompatActivity
     public void setFabVisibility(int visibility){
         fab.setVisibility(visibility);
     }
+
+//
+//
+//    public class GetInvitationAsyncTask extends AsyncTask<Void, Void, List<MatchInfo>> {
+//
+//        @Override
+//        protected List<MatchInfo> doInBackground(Void... params) {
+//            TableFootballService apiService = ApiClient.instance();
+//            Call<List<MatchResponse>> call = apiService.getAllMatches(TFCApplication.getTOKEN());
+//
+//            try {
+//                Response<List<MatchResponse>> response = call.execute();
+//                if(response.isSuccessful()){
+//                    List<MatchResponse> responseList = response.body();
+//
+//                    List<MatchInfo> resultlList = new ArrayList<>();
+//                    for (MatchResponse resp : responseList) {
+//                        resultlList.add(MatchInfo.mapMatchResponse(resp));
+//                    }
+//                    return resultlList;
+//                }
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(final List<MatchInfo> list) {
+//            getMatchesTask = null;
+//
+//            if (list != null) {
+//                showProgress(false);
+//                mRvAdapter.setMatchInfoList(list);
+//            } else {
+//                Snackbar.make(getActivity().findViewById(R.id.drawer_layout), "Connection Error", Snackbar.LENGTH_LONG)
+//                        .setAction("Retry", new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//                                getMatches();
+//                            }
+//                        }).show();
+//            }
+//        }
+//
+//        @Override
+//        protected void onCancelled() {
+//            getMatchesTask = null;
+//            showProgress(false);
+//        }
 }

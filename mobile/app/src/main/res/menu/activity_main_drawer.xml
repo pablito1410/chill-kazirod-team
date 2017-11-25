@@ -4,23 +4,21 @@
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_invitations"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="@string/your_invitations" />
+
         <item
             android:id="@+id/nav_matches"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/your_matches" />
-        <item
-            android:id="@+id/nav_statistics"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/your_statistics" />
 
     </group>
 
     <item android:title="@string/account">
         <menu>
-            <item
-                android:id="@+id/nav_manage_account"
-                android:icon="@drawable/ic_menu_manage"
-                android:title="@string/manage_account" />
             <item
                 android:id="@+id/nav_logout"
                 android:icon="@drawable/ic_menu_send"

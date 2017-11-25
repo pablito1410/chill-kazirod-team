@@ -1,6 +1,8 @@
 package chillout.hackaton.tablefootballclient.defs;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import chillout.hackaton.tablefootballclient.R;
@@ -11,10 +13,10 @@ import chillout.hackaton.tablefootballclient.R;
 
 public enum MatchState {
 
-    CREATED(R.color.blue,"Created"),
-    ACCEPTED(R.color.yellow,"Accepted"),
-    FINISHED(R.color.green,"Finished"),
-    CANCELLED(R.color.red,"Cancelled")
+    CREATED(R.color.blue,"CREATED"),
+    ACCEPTED(R.color.yellow,"ACCEPTED"),
+    FINISHED(R.color.green,"FINISHED"),
+    CANCELLED(R.color.red,"CANCELLED")
     ;
 
     private Integer resourceTextColor;
@@ -25,6 +27,15 @@ public enum MatchState {
         this.resourceTextColor = resourceTextColor;
         this.text = text;
     }
+
+    public static Map<String, MatchState> map = new HashMap<String, MatchState>();
+    static {
+        for (MatchState userType : MatchState.values()) {
+            map.put(userType.name(), userType);
+        }
+    }
+
+
 
     public Integer getResourceTextColor() {
         return resourceTextColor;

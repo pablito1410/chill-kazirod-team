@@ -18,6 +18,8 @@ import java.lang.reflect.Type;
 import java.util.Objects;
 
 import chillout.hackaton.tablefootballclient.defs.MatchState;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -33,6 +35,10 @@ public class ApiClient {
 
     public static void initalize() {
 
+//        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+//        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+//        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(DateTime.class, new DateTimeSerializer())
                 .registerTypeAdapter(DateTime.class, new DateTimeDeserializer())
@@ -43,6 +49,7 @@ public class ApiClient {
         retrofit = new Retrofit.Builder()
                 .baseUrl(SERVER_URL)
                 .addConverterFactory(GsonConverterFactory.create(gson))
+                //.client(client)
                 .build();
     }
 
@@ -74,7 +81,7 @@ public class ApiClient {
 
         @Override
         public MatchState deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-            return MatchState.valueOf(json.toString());
+            return MatchState.map.get(json.getAsString());
         }
     }
 

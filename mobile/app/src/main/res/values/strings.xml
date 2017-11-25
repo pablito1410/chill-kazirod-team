@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TableFootballClient</string>
+    <string name="app_name">Table Football Client</string>
     <string name="title_activity_login">Sign in</string>
 
     <!-- Strings related to login -->
@@ -21,7 +21,7 @@
 
     <string name="action_settings">Settings</string>
     <string name="your_matches">Your matches</string>
-    <string name="your_statistics">Your Statistics</string>
+    <string name="your_invitations">Your invitations</string>
     <string name="account">Account</string>
     <string name="manage_account">Manage account</string>
     <string name="logout">Logout</string>
@@ -32,7 +32,8 @@
     <string name="match_time">Match time:</string>
     <string name="create_match">Create match</string>
     <string name="action_sign_up">Sing up</string>
-    <string name="to_my_team">To my team</string>
-    <string name="to_opposite_team">To oposite team</string>
+    <string name="to_my_team">To first team</string>
+    <string name="to_opposite_team">To second team</string>
     <string name="status">Status</string>
+    <string name="no_invitations">No invitations</string>
 </resources>

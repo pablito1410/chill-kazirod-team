@@ -1,0 +1,95 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="chillout.hackaton.tablefootballclient.fragment.InvitationFragment">
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent" android:layout_height="300dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:orientation="vertical"
+            android:layout_marginStart="40dp">
+    <TextView
+        android:id="@+id/player1name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/team1Score"
+        android:textColor="@android:color/black"
+        android:text="Player1"
+        android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/player2name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/player1name"
+        android:layout_below="@+id/player1name"
+        android:text="Player2"
+        android:textColor="@android:color/black"
+        android:textSize="20sp" />
+
+        </LinearLayout>
+    <TextView
+        android:id="@+id/vs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="VS"
+        android:textSize="25sp"
+        android:textColor="@android:color/black"/>
+
+
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:orientation="vertical"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="40dp">
+
+    <TextView
+        android:id="@+id/player3name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/team1Score"
+        android:textColor="@android:color/black"
+        android:text="Player3"
+        android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/player4name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/player3name"
+        android:layout_below="@+id/player3name"
+        android:text="Player4"
+        android:textColor="@android:color/black"
+        android:textSize="20sp" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+    <Button
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:background="@mipmap/ic_ok"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="30dp"
+        />
+
+    <Button
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+         android:background="@mipmap/ic_reject"
+        android:layout_gravity="start|bottom"
+        android:layout_margin="30dp"
+        />
+
+</FrameLayout>

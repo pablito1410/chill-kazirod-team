@@ -23,6 +23,26 @@ public class MatchResponse extends BasicId {
     @Expose
     private ProjectionTeam secondTeam;
 
+//    @SerializedName("winner")
+//    @Expose
+//    private ProjectionTeam winner;
+
+    @SerializedName("firstScore")
+    @Expose
+    private Integer firstScore;
+
+    @SerializedName("secondScore")
+    @Expose
+    private Integer secondScore;
+
+
+    public Integer getFirstScore() {
+        return firstScore;
+    }
+
+    public Integer getSecondScore() {
+        return secondScore;
+    }
 
     public MatchState getState() {
         return state;
@@ -48,7 +68,7 @@ public class MatchResponse extends BasicId {
         this.secondTeam = secondTeam;
     }
 
-    class ProjectionTeam extends BasicId {
+    public class ProjectionTeam extends BasicId {
 
         @SerializedName("name")
         @Expose

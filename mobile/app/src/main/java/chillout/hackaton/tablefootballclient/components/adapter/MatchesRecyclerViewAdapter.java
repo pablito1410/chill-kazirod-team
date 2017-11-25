@@ -1,6 +1,7 @@
 package chillout.hackaton.tablefootballclient.components.adapter;
 
 import android.content.Context;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import chillout.hackaton.tablefootballclient.R;
+import chillout.hackaton.tablefootballclient.defs.MatchState;
 import chillout.hackaton.tablefootballclient.model.MatchInfo;
 
 /**
@@ -34,18 +36,34 @@ public class MatchesRecyclerViewAdapter extends RecyclerView.Adapter<MatchesRecy
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        MatchInfo matchInfo = matchInfoList.get(position);
+        final MatchInfo matchInfo = matchInfoList.get(position);
 
         holder.playerOneNameTV.setText(matchInfo.getPlayerOneName());
         holder.playerTwoNameTV.setText(matchInfo.getPlayerTwoName());
         holder.playerThreeNameTV.setText(matchInfo.getPlayerThreeName());
         holder.playerFourNameTV.setText(matchInfo.getPlayerFourName());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(matchInfo.getMatchState() == MatchState.ACCEPTED) {
+                    //TODO DIALOG
+                    Snackbar.make(view.getRootView().getRootView(),"OPEN ADDING SCORES",Snackbar.LENGTH_LONG).show();
+                }
+            }
+        });
 
-        holder.teamOneScoreTV.setText(Integer.toString(matchInfo.getTeamOneScore()));
-        holder.teamTwoScoreTV.setText(Integer.toString(matchInfo.getTeamTwoScore()));
+        if(matchInfo.getMatchState() == MatchState.FINISHED) {
+            holder.teamOneScoreTV.setText(Integer.toString(matchInfo.getTeamOneScore()));
+            holder.teamTwoScoreTV.setText(Integer.toString(matchInfo.getTeamTwoScore()));
+        }
 
         holder.statusTV.setText(matchInfo.getMatchState().getText());
         holder.statusTV.setTextColor(context.getResources().getColor(matchInfo.getMatchState().getResourceTextColor()));
+    }
+
+    public void setMatchInfoList(List<MatchInfo> matchInfoList) {
+        this.matchInfoList = matchInfoList;
+        notifyDataSetChanged();
     }
 
     @Override

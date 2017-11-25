@@ -77,7 +77,18 @@ public class MatchInfo {
     }
 
 
-//    public static MatchInfo mapMatchResponse (MatchResponse response) {
-//        return new MatchInfo(response.getId(), response.getFirstTeam())
-//    }
+    public static MatchInfo mapMatchResponse (MatchResponse response) {
+        return new MatchInfo(response.getId(),
+                response.getFirstTeam().getId(),
+                response.getSecondTeam().getId(),
+                response.getFirstTeam().getFirstPlayer().getUserName(),
+                response.getFirstTeam().getSecondPlayer().getUserName(),
+                response.getSecondTeam().getFirstPlayer().getUserName(),
+                response.getSecondTeam().getSecondPlayer().getUserName(),
+                response.getState(),
+                response.getFirstScore(),
+                response.getSecondScore());
+    }
+
+
 }

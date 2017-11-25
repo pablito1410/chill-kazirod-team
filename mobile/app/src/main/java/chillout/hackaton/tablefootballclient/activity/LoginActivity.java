@@ -30,6 +30,7 @@ import chillout.hackaton.tablefootballclient.api.ApiClient;
 import chillout.hackaton.tablefootballclient.api.TableFootballService;
 import chillout.hackaton.tablefootballclient.api.request.LoginUserRequest;
 import chillout.hackaton.tablefootballclient.api.request.RegisterUserRequest;
+import chillout.hackaton.tablefootballclient.api.response.BasicId;
 import chillout.hackaton.tablefootballclient.api.response.BasicUser;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -166,7 +167,7 @@ public class LoginActivity extends AppCompatActivity{
         protected Boolean doInBackground(Void... params) {
 
             TableFootballService apiService = ApiClient.instance();
-                Call<ResponseBody> call;
+                Call<BasicId> call;
                 if (isRegister) {
                     RegisterUserRequest request = new RegisterUserRequest(mNickname,mPassword);
                     call = apiService.registerUser(request);
@@ -176,11 +177,12 @@ public class LoginActivity extends AppCompatActivity{
                     call = apiService.loginUser(request);
                 }
 
-            Response<ResponseBody> response = null;
+            Response<BasicId> response = null;
             try {
                 response = call.execute();
                 if(response.isSuccessful()){
                     TFCApplication.setTOKEN(response.headers().get("Authorization"));
+                    TFCApplication.setUserId(response.body().getId());
                     return true;
                 }
 
