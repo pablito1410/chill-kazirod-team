@@ -1,5 +1,6 @@
 package com.chill.table.football.application.query.acceptation;
 
+import com.chill.table.football.application.query.matches.MatchProjection;
 import lombok.Value;
 
 import java.util.ArrayList;
@@ -8,9 +9,9 @@ import java.util.List;
 
 @Value
 class AcceptationProjectionImpl implements AcceptationProjection {
-    private List<Long> matchIds = new ArrayList<>();
+    private List<MatchProjection> matches = new ArrayList<>();
 
-    AcceptationProjectionImpl(List<Long> ids) {
-        this.matchIds.addAll(ids);
+    AcceptationProjectionImpl(List<MatchProjection> matches) {
+        this.matches.addAll(matches);
     }
 }

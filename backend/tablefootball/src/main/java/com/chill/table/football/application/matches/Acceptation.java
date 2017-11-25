@@ -1,6 +1,8 @@
 package com.chill.table.football.application.matches;
 
 
+import com.chill.table.football.application.user.Player;
+
 import javax.persistence.*;
 
 @Entity

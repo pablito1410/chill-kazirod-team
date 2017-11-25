@@ -11,36 +11,29 @@ import com.chill.table.football.application.matches.dto.out.RejectMatchResponseD
 import com.chill.table.football.application.matches.exception.MatchExistsWithTooCloseDateTime;
 import com.chill.table.football.application.matches.exception.TeamNameAlreadyExistException;
 import com.chill.table.football.application.query.matches.MatchesFinder;
-import com.chill.table.football.application.query.user.UserFinder;
-import com.chill.table.football.application.user.User;
-import com.chill.table.football.application.user.UserDao;
-import com.chill.table.football.application.user.ports.outgoing.UserDTO;
-import com.chill.table.football.infrastructure.repository.user.UserRepository;
+import com.chill.table.football.application.user.Player;
+import com.chill.table.football.application.user.PlayerRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
-import java.util.Optional;
 
 @Transactional
 public class MatchesService {
 
     private MatchesRepository matchesRepository;
     private MatchesRepository.TeamRepository teamRepository;
-    private MatchesRepository.PlayerRepository playerRepository;
     private MatchesRepository.AcceptationRepository acceptationRepository;
 
     private MatchesFinder matchesFinder;
-    private UserDao userDao;
+    private PlayerRepository playerRepository;
 
     public MatchesService(MatchesRepository matchesRepository, MatchesRepository.TeamRepository teamRepository,
-                          MatchesRepository.PlayerRepository playerRepository, MatchesFinder matchesFinder,
-                          UserDao userDao) {
+                          MatchesFinder matchesFinder, PlayerRepository playerRepository) {
         this.matchesRepository = Objects.requireNonNull(matchesRepository);
         this.teamRepository = Objects.requireNonNull(teamRepository);
-        this.playerRepository = Objects.requireNonNull(playerRepository);
 
         this.matchesFinder = Objects.requireNonNull(matchesFinder);
-        this.userDao = Objects.requireNonNull(userDao);
+        this.playerRepository = Objects.requireNonNull(playerRepository);
     }
 
     public CreateMatchWithPlayersResponseDTO createMatchWithPlayers(CreateMatchWithPlayersRequestDTO createMatchWithPlayersRequestDTO) {
@@ -77,10 +70,9 @@ public class MatchesService {
         return team;
     }
 
+    // TODO nie ma konta - wyjątek
     private Player getOrCreatePlayer(Long playerId) {
-        User user = userDao.getUser(playerId).get();
-        return playerRepository.findById(playerId)
-                .orElse(new Player(user));
+        return playerRepository.findByIdOrThrow(playerId);
     }
 
     public EndMatchResponseDTO endMatch(EndMatchRequestDTO endMatchRequestDTO) {
@@ -89,7 +81,7 @@ public class MatchesService {
         Match match = matchesRepository.findByIdOrThrow(endMatchRequestDTO.getMatchId());
         Team team = teamRepository.findByIdOrThrow(endMatchRequestDTO.getTeamId());
 
-        match.end(team, endMatchRequestDTO.getWinnerScore(), endMatchRequestDTO.getLoserScore(), endMatchRequestDTO.getEndDateTime());
+        match.end(team, endMatchRequestDTO.getFirstScore(), endMatchRequestDTO.getSecondScore(), endMatchRequestDTO.getEndDateTime());
 
         return EndMatchResponseDTO.builder().build();
     }

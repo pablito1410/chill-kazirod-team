@@ -1,13 +1,12 @@
 package com.chill.table.football.infrastructure.springconfig;
 
-import com.chill.table.football.application.query.user.UserFinder;
+import com.chill.table.football.application.user.PlayerRepository;
 import com.chill.table.football.infrastructure.authentication.JwtAuthenticationFilter;
 import com.chill.table.football.infrastructure.authentication.JwtLoginFilter;
 import com.chill.table.football.infrastructure.authentication.UserAuthService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -19,16 +18,16 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final UserFinder userFinder;
+    private final PlayerRepository playerRepository;
     private final UserAuthService userAuthService;
     private final ObjectMapper objectMapper;
 
     @Autowired
-    public SecurityConfig(final UserFinder userFinder,
+    public SecurityConfig(final PlayerRepository playerRepository,
                           final UserAuthService userAuthService,
                           final ObjectMapper objectMapper) {
         super();
-        this.userFinder = userFinder;
+        this.playerRepository = playerRepository;
         this.userAuthService = userAuthService;
         this.objectMapper = objectMapper;
     }
@@ -55,7 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .addFilterBefore(new JwtLoginFilter("/login", authenticationManager(), objectMapper),
                         UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new JwtAuthenticationFilter(userFinder),
+                .addFilterBefore(new JwtAuthenticationFilter(playerRepository),
                         UsernamePasswordAuthenticationFilter.class);
     }
 

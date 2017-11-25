@@ -10,18 +10,16 @@ class MatchProjectionImpl implements MatchProjection {
     private String state;
     private TeamProjection firstTeam;
     private TeamProjection secondTeam;
-    private TeamProjection winner;
-    private Integer winnerScore;
-    private Integer loserScore;
+    private Integer firstScore;
+    private Integer secondScore;
 
     MatchProjectionImpl(MatchProjection matchProjection) {
         this.id = matchProjection.getId();
         this.state = matchProjection.getState();
         this.firstTeam = new TeamProjectionImpl(matchProjection.getFirstTeam());
         this.secondTeam = new TeamProjectionImpl(matchProjection.getSecondTeam());
-        this.winner = new TeamProjectionImpl(matchProjection.getWinner());
-        this.winnerScore = matchProjection.getWinnerScore();
-        this.loserScore = matchProjection.getLoserScore();
+        this.firstScore = matchProjection.getFirstScore();
+        this.secondScore = matchProjection.getSecondScore();
     }
 
 

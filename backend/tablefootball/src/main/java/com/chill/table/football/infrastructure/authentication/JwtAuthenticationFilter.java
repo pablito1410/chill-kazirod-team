@@ -1,7 +1,6 @@
 package com.chill.table.football.infrastructure.authentication;
 
-import com.chill.table.football.application.query.user.UserFinder;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.chill.table.football.application.user.PlayerRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
@@ -15,12 +14,10 @@ import java.io.IOException;
 
 public class JwtAuthenticationFilter extends GenericFilterBean {
 
+    private final PlayerRepository playerRepository;
 
-    private final UserFinder userFinder;
-
-    @Autowired
-    public JwtAuthenticationFilter(final UserFinder userFinder) {
-        this.userFinder = userFinder;
+    public JwtAuthenticationFilter(final PlayerRepository playerRepository) {
+        this.playerRepository = playerRepository;
     }
 
     @Override
@@ -29,7 +26,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
                          FilterChain filterChain)
             throws IOException, ServletException {
         Authentication authentication = TokenAuthenticationService
-                .getAuthentication((HttpServletRequest)request, userFinder);
+                .getAuthentication((HttpServletRequest)request, playerRepository);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         filterChain.doFilter(request,response);
     }

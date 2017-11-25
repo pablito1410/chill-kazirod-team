@@ -9,7 +9,7 @@ import java.util.Objects;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/acceptation")
+@RequestMapping("api/acceptation")
 public class AcceptationController {
 
     private AcceptationFinder acceptationFinder;

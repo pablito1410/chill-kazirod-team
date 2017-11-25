@@ -4,6 +4,7 @@ import com.chill.table.football.application.matches.exception.AcceptationNotFoun
 import com.chill.table.football.application.matches.exception.MatchNotFoundException;
 import com.chill.table.football.application.matches.exception.PlayerNotFoundException;
 import com.chill.table.football.application.matches.exception.TeamNotFoundException;
+import com.chill.table.football.application.user.Player;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public interface MatchesRepository {
 
     List<Match> findAll();
 
-    interface PlayerRepository {
+    interface UserRepository {
         Optional<Player> findById(Long playerId);
 
         default Player findByIdOrThrow(Long playerId) {

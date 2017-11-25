@@ -1,10 +1,11 @@
-package com.chill.table.football.application.user.ports.incoming;
+package com.chill.table.football.application.matches.dto.in;
 
+import com.chill.table.football.application.matches.dto.out.CreateUserResponseDTO;
 import com.chill.table.football.architecture.cqrs.Command;
 import lombok.Value;
 
 @Value
-public class CreateUserCommand implements Command<Long> {
+public class CreateUserRequestDTO implements Command<CreateUserResponseDTO> {
 
     private final String userName;
     private final String password;

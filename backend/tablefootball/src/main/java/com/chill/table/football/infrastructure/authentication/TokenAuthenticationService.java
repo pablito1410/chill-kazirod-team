@@ -1,7 +1,7 @@
 package com.chill.table.football.infrastructure.authentication;
 
-import com.chill.table.football.application.query.user.UserFinder;
-import com.chill.table.football.application.user.User;
+import com.chill.table.football.application.user.Player;
+import com.chill.table.football.application.user.PlayerRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -11,8 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Optional;
 
-public class TokenAuthenticationService {
+import static sun.audio.AudioPlayer.player;
+
+class TokenAuthenticationService {
 
     static final long EXPIRATIONTIME = 864_000_000; // 10 days
     static final String SECRET = "Chill";
@@ -20,7 +23,7 @@ public class TokenAuthenticationService {
     static final String HEADER_STRING = "Authorization";
 
 
-    public static void addAuthentication(HttpServletResponse res, String username) {
+    static void addAuthentication(HttpServletResponse res, String username) {
         String jwt = Jwts.builder()
                 .setSubject(username)
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATIONTIME))
@@ -30,7 +33,7 @@ public class TokenAuthenticationService {
 
     }
 
-    public static Authentication getAuthentication(HttpServletRequest request, UserFinder userFinder) {
+    static Authentication getAuthentication(HttpServletRequest request, PlayerRepository playerRepository) {
         String token = request.getHeader(HEADER_STRING);
         if (token == null) {
             return null;
@@ -41,10 +44,12 @@ public class TokenAuthenticationService {
                         .getBody()
                         .getSubject();
 
-            final User user = userFinder.getUserByName(userName);
-            return user != null
-                    ? new UsernamePasswordAuthenticationToken(userName, null, Collections.emptyList())
-                    : null;
+            Optional<Player> optPlayer = playerRepository.findByUserName(userName);
+            if (optPlayer.isPresent()) {
+                return new UsernamePasswordAuthenticationToken(userName, null, Collections.emptyList());
+            } else {
+                return null;
+            }
         }
     }
 }

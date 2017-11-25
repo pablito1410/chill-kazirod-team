@@ -1,7 +1,7 @@
 package com.chill.table.football;
 
 import com.chill.table.football.application.matches.dto.in.CreateMatchWithPlayersRequestDTO;
-import com.chill.table.football.application.user.ports.incoming.CreateUserCommand;
+import com.chill.table.football.application.matches.dto.in.CreateUserRequestDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableSet;
@@ -31,7 +31,7 @@ public class JsonGenerator {
 
     @Test
     public void generateCreateUserJson() throws JsonProcessingException {
-        CreateUserCommand createUserCommand = new CreateUserCommand("admin", "admin1", "asd", "dsa");
+        CreateUserRequestDTO createUserCommand = new CreateUserRequestDTO("admin", "admin1", "asd", "dsa");
         String json = objectMapper.writeValueAsString(createUserCommand);
         System.out.println(json);
     }
