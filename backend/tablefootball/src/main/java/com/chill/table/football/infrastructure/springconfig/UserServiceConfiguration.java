@@ -11,11 +11,6 @@ import org.springframework.context.annotation.Configuration;
 class UserServiceConfiguration {
 
     @Bean
-    ModelMapper modelMapper() {
-        return new ModelMapper();
-    }
-
-    @Bean
     PlayerService userService(final PlayerRepository playerRepository, final PasswordEncoder passwordEncoder) {
         return new PlayerService(playerRepository, passwordEncoder);
     }
