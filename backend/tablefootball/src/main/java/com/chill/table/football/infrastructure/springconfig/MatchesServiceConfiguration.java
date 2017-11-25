@@ -14,6 +14,6 @@ public class MatchesServiceConfiguration {
     @Bean
     public MatchesService matchesService(MatchesRepository matchesRepository, TeamRepository teamRepository,
                                          PlayerRepository playerRepository, MatchesFinder matchesFinder) {
-        return new MatchesService(matchesRepository, teamRepository, playerRepository, matchesFinder);
+        return new MatchesService(matchesRepository, teamRepository, playerRepository, matchesFinder, userService);
     }
 }

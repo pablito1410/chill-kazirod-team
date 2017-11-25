@@ -7,8 +7,6 @@ import com.chill.table.football.application.matches.dto.out.EndMatchResponseDTO;
 import com.chill.table.football.application.matchesfinder.MatchesFinder;
 import com.chill.table.football.application.matchesfinder.projection.MatchProjection;
 import com.chill.table.football.architecture.cqrs.CommandGateway;
-import org.springframework.data.projection.ProjectionFactory;
-import org.springframework.expression.spel.ast.Projection;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -38,7 +36,6 @@ class MatchesController {
         return commandGateway.dispatch(requestDTO);
     }
 
-    // TODO throw not found exception
     @GetMapping(path = "/{matchId}")
     MatchProjection getOne(@PathParam("matchId") Long matchId) {
         return matchesFinder.findOrThrow(matchId);
