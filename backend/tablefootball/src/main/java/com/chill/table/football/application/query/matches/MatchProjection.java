@@ -7,4 +7,9 @@ public interface MatchProjection {
     String getState();
     TeamProjection getFirstTeam();
     TeamProjection getSecondTeam();
+    TeamProjection getWinner();
+    Integer getWinnerScore();
+    Integer getLoserScore();
+
+
 }

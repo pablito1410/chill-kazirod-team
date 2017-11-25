@@ -16,6 +16,7 @@ import javax.websocket.server.PathParam;
 import java.util.List;
 import java.util.Objects;
 
+@CrossOrigin
 @RestController
 @RequestMapping(path = "api/matches")
 class MatchesController {

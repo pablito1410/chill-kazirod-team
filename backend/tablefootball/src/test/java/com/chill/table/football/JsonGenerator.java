@@ -31,7 +31,7 @@ public class JsonGenerator {
 
     @Test
     public void generateCreateUserJson() throws JsonProcessingException {
-        CreateUserCommand createUserCommand = new CreateUserCommand("admin", "admin1");
+        CreateUserCommand createUserCommand = new CreateUserCommand("admin", "admin1", "asd", "dsa");
         String json = objectMapper.writeValueAsString(createUserCommand);
         System.out.println(json);
     }

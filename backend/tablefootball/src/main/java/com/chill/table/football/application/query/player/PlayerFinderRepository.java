@@ -1,15 +1,43 @@
 package com.chill.table.football.application.query.player;
 
-import com.chill.table.football.application.matches.Player;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcOperations;
+import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
-@Repository
-public interface PlayerFinderRepository extends JpaRepository<Player, Long> {
-    Optional<PlayerProjection> findById(Long playerId);
+@Component
+public class PlayerFinderRepository {
 
-    List<PlayerProjection> findBy();
+    private static final String SQL_SELECT_PLAYER_BY_ID =
+            "SELECT p.id, u.name " +
+                    "FROM Player p " +
+                    "JOIN User u ON u.id = p.id " +
+                    "WHERE p.id = ? ";
+
+    private static final String SQL_SELECT_PLAYER =
+            "SELECT p.id, u.name " +
+                    "FROM Player p " +
+                    "JOIN User u ON u.id = p.id ";
+
+    private JdbcOperations jdbcOperations;
+
+    public PlayerFinderRepository(JdbcOperations jdbcOperations) {
+        this.jdbcOperations = Objects.requireNonNull(jdbcOperations);
+    }
+
+    Optional<PlayerProjection> findById(Long playerId) {
+        return Optional.ofNullable(
+                jdbcOperations.queryForObject(SQL_SELECT_PLAYER_BY_ID, new BeanPropertyRowMapper<>(), playerId));
+    }
+
+    List<PlayerProjection> findBy() {
+        List<PlayerProjection> output = new ArrayList<>();
+        List<PlayerProjectionImpl> playerProjections = jdbcOperations.queryForList(SQL_SELECT_PLAYER, PlayerProjectionImpl.class);
+        output.addAll(playerProjections);
+        return output;
+    }
 }

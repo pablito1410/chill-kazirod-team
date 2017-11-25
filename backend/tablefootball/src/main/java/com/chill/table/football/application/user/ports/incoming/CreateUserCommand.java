@@ -8,5 +8,7 @@ public class CreateUserCommand implements Command<Long> {
 
     private final String userName;
     private final String password;
+    private String firstName;
+    private String lastName;
 
 }
