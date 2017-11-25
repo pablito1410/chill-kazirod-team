@@ -1,44 +1,18 @@
 package com.chill.table.football.infrastructure.springconfig;
 
-import com.chill.table.football.application.query.user.UserFinderDao;
 import com.chill.table.football.application.user.PasswordEncoder;
-import com.chill.table.football.application.query.user.UserFinder;
-import com.chill.table.football.application.user.UserService;
-import com.chill.table.football.application.user.UserDao;
-import com.chill.table.football.application.util.EntityMapper;
-import com.chill.table.football.infrastructure.repository.user.SpringDataUserRepository;
-import com.chill.table.football.infrastructure.repository.user.UserRepository;
-import com.chill.table.football.infrastructure.util.EntityMapperDefault;
+import com.chill.table.football.application.user.PlayerRepository;
+import com.chill.table.football.application.user.PlayerService;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class UserServiceConfiguration {
+class UserServiceConfiguration {
 
     @Bean
-    public UserDao userDao(final SpringDataUserRepository userRepository) {
-        return new UserRepository(userRepository);
-    }
-
-    @Bean
-    public ModelMapper modelMapper() {
-        return new ModelMapper();
-    }
-
-    @Bean
-    public EntityMapper entityMapper(final ModelMapper modelMapper) {
-        return new EntityMapperDefault(modelMapper);
-    }
-
-    @Bean
-    public UserService userService(final UserDao userDao, final PasswordEncoder passwordEncoder) {
-        return new UserService(userDao, passwordEncoder);
-    }
-
-    @Bean
-    UserFinderDao userFinderDao(final SpringDataUserRepository repository) {
-        return new UserRepository(repository);
+    PlayerService userService(final PlayerRepository playerRepository, final PasswordEncoder passwordEncoder) {
+        return new PlayerService(playerRepository, passwordEncoder);
     }
 
 }

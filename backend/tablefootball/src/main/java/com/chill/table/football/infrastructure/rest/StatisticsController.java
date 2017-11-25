@@ -1,7 +1,7 @@
 package com.chill.table.football.infrastructure.rest;
 
+import com.chill.table.football.application.query.player.PlayerProjection;
 import com.chill.table.football.application.query.statistics.StatisticsFinder;
-import com.chill.table.football.application.user.ports.outgoing.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,8 +25,7 @@ public class StatisticsController {
     }
 
     @RequestMapping(path = "/rank", method = RequestMethod.GET)
-    public ResponseEntity<Map<UserDTO, Long>> getRank() {
-        final Map<UserDTO, Long> playersRank = statisticsFinder.getPlayersRank();
-        return new ResponseEntity<>(playersRank, HttpStatus.OK);
+    public Map<PlayerProjection, Long> getRank() {
+        return statisticsFinder.getPlayersRank();
     }
 }

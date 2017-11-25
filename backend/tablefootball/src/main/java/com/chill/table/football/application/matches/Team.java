@@ -1,10 +1,9 @@
 package com.chill.table.football.application.matches;
 
+import com.chill.table.football.application.user.Player;
 import com.google.common.collect.ImmutableSet;
-import jdk.nashorn.internal.ir.annotations.Immutable;
 
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.Set;
 
 @Entity

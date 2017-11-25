@@ -34,12 +34,9 @@ public class Match {
     @OneToOne(cascade = CascadeType.ALL)
     private Team secondTeam;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private Team winner;
+    private Integer firstScore;
 
-    private Integer winnerScore;
-
-    private Integer loserScore;
+    private Integer secondScore;
 
     @OneToMany(mappedBy = "match", cascade = CascadeType.ALL)
     private Set<Acceptation> acceptations = new HashSet<>();
@@ -67,14 +64,13 @@ public class Match {
                 .build();
     }
 
-    Match end(Team winningTeam, Integer winnerScore, Integer loserScore, LocalDateTime endDateTime) {
+    Match end(Team winningTeam, Integer firstScore, Integer secondScore, LocalDateTime endDateTime) {
         if (!firstTeam.equals(winningTeam) || !secondTeam.equals(winningTeam)) {
             throw new MatchDoesNotContainTeam(id , winningTeam.getId());
         }
         this.state = State.FINISHED;
-        this.winner = winningTeam;
-        this.winnerScore = winnerScore;
-        this.loserScore = loserScore;
+        this.firstScore = firstScore;
+        this.secondScore = secondScore;
         this.endDateTime = endDateTime;
         return this;
     }

@@ -1,29 +1,40 @@
 package com.chill.table.football.infrastructure.rest;
 
+import com.chill.table.football.application.matches.dto.in.CreateUserRequestDTO;
+import com.chill.table.football.application.matches.dto.out.CreateUserResponseDTO;
 import com.chill.table.football.application.query.player.PlayerFinder;
 import com.chill.table.football.application.query.player.PlayerProjection;
+import com.chill.table.football.architecture.cqrs.CommandGateway;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
 import java.util.List;
-import java.util.Objects;
 
 @CrossOrigin
 @RestController
-@RequestMapping("api/player")
-public class PlayerController {
+@RequestMapping("/api/users")
+class PlayerController {
+
+    private CommandGateway commandGateway;
     private PlayerFinder playerFinder;
 
-    PlayerController(PlayerFinder playerFinder) {
-        this.playerFinder = Objects.requireNonNull(playerFinder);
+    PlayerController(CommandGateway commandGateway,
+                     PlayerFinder playerFinder) {
+        this.commandGateway = commandGateway;
+        this.playerFinder = playerFinder;
     }
 
-    @GetMapping("{playerId}")
-    PlayerProjection getOne(@PathVariable("playerId") Long playerId) {
-        return playerFinder.findByIdOrThrow(playerId);
+    @RequestMapping(path = "/create", method = RequestMethod.POST)
+    CreateUserResponseDTO createUser(@RequestBody final CreateUserRequestDTO requestDTO) {
+        return commandGateway.dispatch(requestDTO);
     }
 
-    @GetMapping
+    @RequestMapping(path = "/{id}", method = RequestMethod.GET)
+    PlayerProjection get(@PathVariable(name = "id") final long id) {
+        return playerFinder.findByIdOrThrow(id);
+    }
+
+    @RequestMapping(path = "/all", method = RequestMethod.GET)
     List<PlayerProjection> getAll() {
         return playerFinder.findAll();
     }

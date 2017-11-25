@@ -1,0 +1,18 @@
+<div class="login-wrapper">
+	<form [formGroup]="registerForm" (submit)="onSubmit();" class="login" novalidate>
+
+			<label class="title">
+				<h3 class="welcome">Registration</h3>
+			</label>
+		<div class="login-group">
+			<input class="username" type="text" formControlName="userName" id="login_username"
+			       placeholder="Username">
+			<input class="password" type="password" formControlName="password" id="login_password"
+			       placeholder="Password">
+			<input class="username" type="text" formControlName="firstName" placeholder="First name">
+			<input class="password" type="text" formControlName="lastName" placeholder="Last name">
+			<button type="submit" class="btn btn-primary">Register!</button>
+			<a [routerLink]="['/login']" class="signup">I've got an account!</a>
+		</div>
+	</form>
+</div>

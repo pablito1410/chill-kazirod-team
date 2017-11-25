@@ -1,12 +1,12 @@
-import {AbstractItem} from "./AbstractItem";
+import {AbstractItem} from "./abstract-item";
 
 export class User extends AbstractItem {
 
-    login: string;
+    userName: string;
 
     password: string;
 
-    fName: string;
+    firstName: string;
 
-    lName: string;
+    lastName: string;
 }

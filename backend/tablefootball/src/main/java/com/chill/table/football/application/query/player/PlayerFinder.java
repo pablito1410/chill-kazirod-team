@@ -1,6 +1,7 @@
 package com.chill.table.football.application.query.player;
 
 import com.chill.table.football.application.matches.exception.PlayerNotFoundException;
+import com.chill.table.football.application.user.Player;
 
 import java.util.List;
 import java.util.Objects;
@@ -28,5 +29,6 @@ public class PlayerFinder {
                 .map(PlayerProjectionImpl::new)
                 .collect(Collectors.toList());
     }
+
 }
 

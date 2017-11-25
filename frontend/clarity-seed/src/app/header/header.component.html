@@ -1,0 +1,28 @@
+<clr-header id="siteHeader">
+	<div class="branding">
+		<a href="#" class="nav-link">
+			<span class="title">Table football</span>
+		</a>
+	</div>
+	<div *ngIf="userLoggedIn" class="header-nav" [clr-nav-level]="1">
+		<a class="nav-link" href="#" [routerLink]="['/home']" routerLinkActive="active"><span class="nav-text">Home</span></a>
+		<a class="nav-link" href="#" [routerLink]="['/users']" routerLinkActive="active"><span class="nav-text">Users</span></a>
+		<a class="nav-link" href="#" [routerLink]="['/games']" routerLinkActive="active"><span class="nav-text">Games</span></a>
+		<a class="nav-link" href="#" [routerLink]="['/invitations']" routerLinkActive="active"><span class="nav-text">Invitations</span></a>
+	</div>
+	<div class="header-actions">
+		<clr-dropdown>
+			<button class="nav-icon" clrDropdownTrigger>
+				<clr-icon shape="user"></clr-icon>
+				<clr-icon shape="caret down"></clr-icon>
+			</button>
+			<clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
+				<a *ngIf="userLoggedIn" href="..." clrDropdownItem>About</a>
+				<a *ngIf="userLoggedIn" href="..." clrDropdownItem>Preferences</a>
+				<a *ngIf="userLoggedIn" href="..." clrDropdownItem>Log out</a>
+				<a *ngIf="!userLoggedIn" href="#" [routerLink]="['/login']" clrDropdownItem>Sign in</a>
+				<a *ngIf="!userLoggedIn" href="#" [routerLink]="['/register']" clrDropdownItem>Sign up</a>
+			</clr-dropdown-menu>
+		</clr-dropdown>
+	</div>
+</clr-header>
