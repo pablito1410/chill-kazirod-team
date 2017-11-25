@@ -8,9 +8,10 @@ import com.chill.table.football.application.matches.exception.MatchExistsWithToo
 import com.chill.table.football.application.matches.exception.MatchNotFoundException;
 import com.chill.table.football.application.matches.exception.TeamNotFoundException;
 import com.chill.table.football.application.matchesfinder.MatchesFinder;
+import com.chill.table.football.application.user.UserFinder;
+import com.chill.table.football.application.user.ports.outgoing.UserDTO;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -23,13 +24,16 @@ public class MatchesService {
     private PlayerRepository playerRepository;
 
     private MatchesFinder matchesFinder;
+    private UserFinder userFinder;
 
     public MatchesService(MatchesRepository matchesRepository, TeamRepository teamRepository,
-                          PlayerRepository playerRepository, MatchesFinder matchesFinder) {
+                          PlayerRepository playerRepository, MatchesFinder matchesFinder,
+                          UserFinder userFinder) {
         this.matchesRepository = Objects.requireNonNull(matchesRepository);
         this.teamRepository = Objects.requireNonNull(teamRepository);
         this.playerRepository = Objects.requireNonNull(playerRepository);
         this.matchesFinder = Objects.requireNonNull(matchesFinder);
+        this.userFinder = Objects.requireNonNull(userFinder);
     }
 
     public CreateMatchResponseDTO createMatch(CreateMatchRequestDTO createMatchRequestDTO) {
@@ -63,6 +67,7 @@ public class MatchesService {
     }
 
     private Player getOrCreatePlayer(Long playerId) {
+        userFinder.getUser(playerId);   // rzuci wyjątek gdy nie ma usera
         Optional<Player> player = playerRepository.findById(playerId);
         return player.orElse(new Player());
     }
