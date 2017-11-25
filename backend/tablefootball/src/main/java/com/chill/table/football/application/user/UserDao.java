@@ -11,5 +11,5 @@ public interface UserDao {
 
     User save(User user);
 
-    Optional<User> getUser(String userName);
+    User getUser(String userName);
 }

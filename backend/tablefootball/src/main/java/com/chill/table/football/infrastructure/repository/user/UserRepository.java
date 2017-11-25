@@ -30,7 +30,7 @@ public class UserRepository implements UserDao {
     }
 
     @Override
-    public Optional<User> getUser(final String userName) {
-        return Optional.ofNullable(repository.findOneByUserName(userName));
+    public User getUser(final String userName) {
+        return repository.findOneByUserName(userName);
     }
 }

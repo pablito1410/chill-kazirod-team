@@ -1,5 +1,6 @@
 package com.chill.table.football.infrastructure.springconfig;
 
+import com.chill.table.football.application.user.PasswordEncoder;
 import com.chill.table.football.application.user.UserFinder;
 import com.chill.table.football.application.user.UserService;
 import com.chill.table.football.application.user.UserDao;
@@ -30,8 +31,8 @@ public class UserServiceConfiguration {
     }
 
     @Bean
-    public UserService userService(final UserDao userDao, final EntityMapper entityMapper) {
-        return new UserService(userDao);
+    public UserService userService(final UserDao userDao, final PasswordEncoder passwordEncoder) {
+        return new UserService(userDao, passwordEncoder);
     }
 
     @Bean

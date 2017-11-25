@@ -31,4 +31,8 @@ public class UserFinder {
         final List<User> users = userDao.getAll();
         return entityMapper.mapCollection(users, UserDTO.class, new TypeToken<HashSet<UserDTO>>(){}.getType());
     }
+
+    public User getUserByName(final String userName) {
+        return userDao.getUser(userName);
+    }
 }
