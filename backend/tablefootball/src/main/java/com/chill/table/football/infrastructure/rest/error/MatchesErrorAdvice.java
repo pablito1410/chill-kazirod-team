@@ -39,4 +39,10 @@ class MatchesErrorAdvice {
     ErrorResponse handleTeamNameAlreadyExistException(TeamNameAlreadyExistException e) {
         return new ErrorResponse(e.getMessage());
     }
+
+    @ExceptionHandler(AcceptationNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    ErrorResponse handleAcceptationNotFoundException(AcceptationNotFoundException e) {
+        return new ErrorResponse(e.getMessage());
+    }
 }

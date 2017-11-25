@@ -13,6 +13,7 @@ import com.chill.table.football.application.query.user.UserFinderDao;
 import com.chill.table.football.application.util.EntityMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcOperations;
 
 @Configuration
 class FinderConfiguration {
@@ -40,5 +41,10 @@ class FinderConfiguration {
     @Bean
     AcceptationFinder acceptationFinder(AcceptationFinderRepository acceptationFinderRepository) {
         return new AcceptationFinder(acceptationFinderRepository);
+    }
+
+    @Bean
+    AcceptationFinderRepository acceptationFinderRepository(JdbcOperations jdbcOperations) {
+        return new AcceptationFinderRepository(jdbcOperations);
     }
 }

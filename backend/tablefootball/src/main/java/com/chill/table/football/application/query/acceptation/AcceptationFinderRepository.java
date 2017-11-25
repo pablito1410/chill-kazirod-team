@@ -1,6 +1,5 @@
 package com.chill.table.football.application.query.acceptation;
 
-
 import org.springframework.jdbc.core.JdbcOperations;
 
 import java.util.ArrayList;
@@ -22,7 +21,7 @@ public class AcceptationFinderRepository {
     }
 
     List<AcceptationProjection> findByPlayerId(Long playerId) {
-        ArrayList<AcceptationProjection> output = new ArrayList<>();
+        List<AcceptationProjection> output = new ArrayList<>();
         List<AcceptationProjectionImpl> acceptationProjections = jdbcOperations.queryForList(
                 SQL_SELECT_MATCH_IDS_BY_PLAYER_ID, new Object[]{playerId}, AcceptationProjectionImpl.class);
         output.addAll(acceptationProjections);
