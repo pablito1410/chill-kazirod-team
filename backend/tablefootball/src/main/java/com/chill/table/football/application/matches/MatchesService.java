@@ -8,12 +8,14 @@ import com.chill.table.football.application.matches.exception.MatchExistsWithToo
 import com.chill.table.football.application.matches.exception.MatchNotFoundException;
 import com.chill.table.football.application.matches.exception.TeamNotFoundException;
 import com.chill.table.football.application.matchesfinder.MatchesFinder;
+import com.chill.table.football.application.user.UserFinder;
+import com.chill.table.football.application.user.ports.outgoing.UserDTO;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Transactional
 public class MatchesService {
@@ -23,17 +25,19 @@ public class MatchesService {
     private PlayerRepository playerRepository;
 
     private MatchesFinder matchesFinder;
+    private UserFinder userFinder;
 
     public MatchesService(MatchesRepository matchesRepository, TeamRepository teamRepository,
-                          PlayerRepository playerRepository, MatchesFinder matchesFinder) {
+                          PlayerRepository playerRepository, MatchesFinder matchesFinder,
+                          UserFinder userFinder) {
         this.matchesRepository = Objects.requireNonNull(matchesRepository);
         this.teamRepository = Objects.requireNonNull(teamRepository);
         this.playerRepository = Objects.requireNonNull(playerRepository);
+
         this.matchesFinder = Objects.requireNonNull(matchesFinder);
+        this.userFinder = Objects.requireNonNull(userFinder);
     }
 
-    // TODO:
-    // nie można dodać rezerwacji do 30 minut od tego co aktualnie jest w bazie
     public CreateMatchResponseDTO createMatch(CreateMatchRequestDTO createMatchRequestDTO) {
         Objects.requireNonNull(createMatchRequestDTO);
         CreateMatchRequestDTO.Team firstTeamDTO = createMatchRequestDTO.getFirstTeam();
@@ -53,20 +57,25 @@ public class MatchesService {
     }
 
     private Team getOrCreateTeam(CreateMatchRequestDTO.Team teamDTO) {
-        Set<Long> playerIds = teamDTO.getPlayers();
-        Optional<Team> team = teamRepository.findTop1ByIdIn(playerIds);
+        Optional<Team> team = teamRepository.findTop1ByIdIn(teamDTO.getPlayers());
         return team.orElse(createTeamFromDTO(teamDTO));
     }
 
     private Team createTeamFromDTO(CreateMatchRequestDTO.Team teamDTO) {
         Team team = new Team();
-        teamDTO.getPlayers().forEach(p -> team.appendPlayer(getOrCreatePlayer(p)));
+        Set<Player> players = teamDTO.getPlayers()
+                .stream()
+                .map(this::getOrCreatePlayer)
+                .collect(Collectors.toSet());
+        players.forEach(team::appendPlayer);
+        players.forEach(p -> p.appendTeam(team));
         return team;
     }
 
     private Player getOrCreatePlayer(Long playerId) {
+        UserDTO user = userFinder.getUser(playerId);
         Optional<Player> player = playerRepository.findById(playerId);
-        return player.orElse(new Player());
+        return player.orElse(new Player(user.getId()));
     }
 
     public EndMatchResponseDTO endMatch(EndMatchRequestDTO endMatchRequestDTO) {

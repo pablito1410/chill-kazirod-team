@@ -1,7 +1,7 @@
 package com.chill.table.football.infrastructure.repository.user;
 
 import com.chill.table.football.application.user.User;
-import com.chill.table.football.application.user.ports.outgoing.UserDao;
+import com.chill.table.football.application.user.UserDao;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,5 +27,10 @@ public class UserRepository implements UserDao {
     @Override
     public User save(final User user) {
         return repository.save(user);
+    }
+
+    @Override
+    public Optional<User> getUser(final String userName) {
+        return Optional.ofNullable(repository.findOneByUserName(userName));
     }
 }

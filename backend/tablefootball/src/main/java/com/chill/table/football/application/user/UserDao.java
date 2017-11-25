@@ -1,6 +1,4 @@
-package com.chill.table.football.application.user.ports.outgoing;
-
-import com.chill.table.football.application.user.User;
+package com.chill.table.football.application.user;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,4 +10,6 @@ public interface UserDao {
     List<User> getAll();
 
     User save(User user);
+
+    Optional<User> getUser(String userName);
 }

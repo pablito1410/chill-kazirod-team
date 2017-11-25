@@ -28,31 +28,31 @@ public class Match {
 
     @JoinColumn(name = "HOME")
     @OneToOne(cascade = CascadeType.ALL)
-    private Team home;
+    private Team firstTeam;
 
     @JoinColumn(name = "GUESTS")
     @OneToOne(cascade = CascadeType.ALL)
-    private Team guests;
+    private Team secondTeam;
 
     Match(LocalDateTime dateTime, Team firstTeam, Team secondTeam) {
         this.creationDateTime = LocalDateTime.now();
         this.dateTime = dateTime;
         this.state = State.CREATED;
-        this.home = firstTeam;
-        this.guests = secondTeam;
+        this.firstTeam = firstTeam;
+        this.secondTeam = secondTeam;
     }
 
     CreateMatchResponseDTO toCreateMatchResponseDTO() {
         return CreateMatchResponseDTO.builder()
                 .matchId(id)
-                .firstTeamId(home.getId())
-                .secondTeamId(guests.getId())
+                .firstTeamId(firstTeam.getId())
+                .secondTeamId(secondTeam.getId())
                 .state(state.name())
                 .build();
     }
 
     void end(Team winningTeam) {
-        if (!home.equals(winningTeam) || !guests.equals(winningTeam)) {
+        if (!firstTeam.equals(winningTeam) || !secondTeam.equals(winningTeam)) {
             throw new MatchDoesNotContainTeam("Match with id = " + id + " does not contain team with id = " + winningTeam.getId());
         }
     }

@@ -1,7 +1,7 @@
 package com.chill.table.football.application.user;
 
+import com.chill.table.football.application.user.exception.UserNotFoundException;
 import com.chill.table.football.application.user.ports.incoming.CreateUserCommand;
-import com.chill.table.football.application.user.ports.outgoing.UserDao;
 
 public class UserService {
 
@@ -15,5 +15,10 @@ public class UserService {
         final User user = new User(command.getUserName(), command.getPassword());
         userDao.save(user);
         return user.getId();
+    }
+
+    public User getUserByName(final String userName) {
+        return userDao.getUser(userName)
+                .orElseThrow(UserNotFoundException::new);
     }
 }
